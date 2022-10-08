@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -44,6 +45,9 @@ public static class PlayerInput
   public static InputData[] Players = new InputData[MaxPlayerCount];
   public static int PlayerCount     => Players.Count(x => x != null);
   
+  public static Action<int> OnPlayerJoined;
+  public static Action<int> OnPlayerRemoved;
+
   private static Input.NewDeviceDetected OnNewDeviceDetected;
   public delegate IEnumerator WaitForValidPlayerInputDelegate(int index);
   public static WaitForValidPlayerInputDelegate WaitForValidPlayerInput;
@@ -61,7 +65,11 @@ public static class PlayerInput
   public static void StopSearchingForPlayers()  { Input.OnNewDeviceDetected -= OnNewDeviceDetected; }
   
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
-  public static void RemovePlayer(int index) { Players[index] = null; }
+  public static void RemovePlayer(int index)
+  {
+    Players[index] = null;
+    OnPlayerRemoved?.Invoke(index);
+  }
   
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
   public static void RemoveAllPlayers() { for (int i = 0; i < MaxPlayerCount; i++) RemovePlayer(i); }
@@ -75,6 +83,7 @@ public static class PlayerInput
     if (currentPlayerCount == MaxPlayerCount) return; 
     
     Players[currentPlayerCount] = new InputData(device, controlScheme);
+    OnPlayerJoined?.Invoke(currentPlayerCount);
   }
   
   private static IEnumerator __WaitForValidPlayerInput(int index)
