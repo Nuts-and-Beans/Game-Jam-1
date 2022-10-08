@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Runtime.CompilerServices;
+using UnityEngine;
 
 public class Block : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class Block : MonoBehaviour
   public const float DefaultMovementMultiplier  = 1.0f;
   public float MovementMultiplier { get; set; } = DefaultMovementMultiplier;
   
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public void SetActive(bool active) => gameObject.SetActive(active);
+
   private void FixedUpdate()
   {
     Vector3 blockPosition = transform.position;
