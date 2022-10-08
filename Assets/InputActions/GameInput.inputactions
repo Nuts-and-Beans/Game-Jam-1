@@ -37,6 +37,61 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "ArrowKeys",
+                    "id": "ac0d7c16-c88b-418a-8543-e22c53daf112",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "a27b9c4e-82ca-4ec5-b5f0-d3543c630351",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "9ada901a-010d-4f97-bce3-feb927309b81",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "f6817d6c-a98a-4a7c-a583-c62483604871",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "fb79152e-f1f7-4df9-90d5-329271351220",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "up",
                     "id": "bea7a004-56ce-4128-b968-62e4ee014a7b",
                     "path": "<Keyboard>/w",
@@ -81,7 +136,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Joystick",
+                    "name": "DPad",
                     "id": "977c9319-ba4e-4266-97d2-cf2dbb4a7955",
                     "path": "2DVector",
                     "interactions": "",
@@ -137,11 +192,33 @@
                 },
                 {
                     "name": "",
-                    "id": "731458a9-2960-4a73-b862-57fbf1a0fff9",
+                    "id": "0e051f52-45e2-4871-8620-87f2feecd776",
                     "path": "<Joystick>/trigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "731458a9-2960-4a73-b862-57fbf1a0fff9",
+                    "path": "<HID::usb gamepad           >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7490c419-723a-404e-acb5-428ef46db7f3",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
                     "action": "Rotate",
                     "isComposite": false,
                     "isPartOfComposite": false
