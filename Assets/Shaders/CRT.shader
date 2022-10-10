@@ -53,7 +53,8 @@ Shader "Atari/CRT" {
 
                 float4 col  = tex2D(_MainTex, i.uv);
                 float4 muls = float4(0.f, 0.f, 0.f, 1.f);
-                
+
+                // NOTE(Zack): depending on if the pixel position [pp] is [1, 2, 3] we set the pixel colour for the [rgb] effect of a CRT
                 if (pp == 1) {
                     muls.r = _VertsColour;
                     muls.g = _VertsColour2;
@@ -65,7 +66,7 @@ Shader "Atari/CRT" {
                     muls.r = _VertsColour2;
                 }
 
-                // every 3rd line we add a scan line
+                // NOTE(Zack): every 3rd line we add a scan line
                 if ((int)ps.y % 3 == 0) {
                     muls *= float4(_ScanColour, _ScanColour, _ScanColour, 1.f);
                 }
