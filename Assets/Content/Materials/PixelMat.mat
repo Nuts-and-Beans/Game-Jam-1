@@ -97,7 +97,7 @@ Material:
     - _Parallax: 0.005
     - _PixelHeight: 64
     - _PixelWidth: 64
-    - _Pixels: 5000
+    - _Pixels: 6500
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
