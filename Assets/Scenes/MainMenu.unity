@@ -159,7 +159,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 180, y: 0}
+  m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &231469236
 MonoBehaviour:
@@ -493,7 +493,6 @@ MonoBehaviour:
   playerStatusText:
   - {fileID: 231469236}
   - {fileID: 1308082216}
-  playerInactiveText: Press to join...
   playerActiveText: Joined!
   nextSceneIndex: 1
   nextSceneWaitTimer: 1.5
@@ -659,10 +658,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStatusText:
-  - {fileID: 0}
-  - {fileID: 0}
-  playerInactiveText: Press to join...
-  playerActiveText: Joined!
+  - {fileID: 231469236}
+  - {fileID: 1308082216}
+  playerActiveText: Joined
   nextSceneIndex: 1
   nextSceneWaitTimer: 1.5
 --- !u!114 &701871300
@@ -1036,7 +1034,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 180, y: 0}
+  m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1308082216
 MonoBehaviour:

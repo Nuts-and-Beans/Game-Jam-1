@@ -8,8 +8,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
   [SerializeField] private TMP_Text[] playerStatusText = Array.Empty<TMP_Text>();
-  [SerializeField] private string playerInactiveText   = "Press to join...";
-  [SerializeField] private string playerActiveText     = "Joined!";
+  [SerializeField] private string playerActiveText = "Joined!";
   [Space]
   [SerializeField] private int nextSceneIndex       = 1;
   [SerializeField] private float nextSceneWaitTimer = 1.5f;
@@ -52,7 +51,8 @@ public class MainMenu : MonoBehaviour
     for (int i = 0; i < PlayerInput.MaxPlayerCount; i++)
     {
       bool playerActive = PlayerInput.IsPlayerValid(i);
-      playerStatusText[i].text = playerActive ? playerActiveText : playerInactiveText;
+      if (!playerActive) continue;
+      playerStatusText[i].text = playerActiveText;
     }
   }
   
