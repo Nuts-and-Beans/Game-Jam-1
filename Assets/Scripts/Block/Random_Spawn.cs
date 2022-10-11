@@ -16,6 +16,7 @@ public class Random_Spawn : MonoBehaviour
         RandomBlockSpawn();
     }
 
+    // spawns random block based on random number generated
     void RandomBlockSpawn()
     {
         var position = spawn.transform.position;
