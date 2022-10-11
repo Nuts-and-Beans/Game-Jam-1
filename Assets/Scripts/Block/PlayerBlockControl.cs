@@ -83,7 +83,11 @@ public class PlayerBlockControl : MonoBehaviour
       Transform blockTransform = _activeBlock.transform;
       Vector3 blockPosition    = blockTransform.position;
       
-      float newXPos = blockPosition.x + moveAmount;
+      // Calculate the min and max bounds for this block
+      float maxX = ( World.HalfWorldBounds.x - _activeBlock.blockCenter.x) - (_activeBlock.blockBounds.x * 0.5f);
+      float minX = (-World.HalfWorldBounds.x - _activeBlock.blockCenter.x) + (_activeBlock.blockBounds.x * 0.5f);
+
+      float newXPos = Mathf.Clamp(blockPosition.x + moveAmount, minX, maxX);
       blockTransform.position = new Vector3(newXPos, blockPosition.y, blockPosition.z);
     }
     

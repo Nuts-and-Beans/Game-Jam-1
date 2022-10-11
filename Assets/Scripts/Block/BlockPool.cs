@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class BlockPool : MonoBehaviour
 {
+  // TODO(WSWhitehouse): Change to an array of prefabs for different types of blocks
   [SerializeField] private Block prefab;
   [SerializeField] private int initialSpawnAmount;
   

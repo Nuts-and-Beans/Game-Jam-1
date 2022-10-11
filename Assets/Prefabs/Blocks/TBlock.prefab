@@ -543,3 +543,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 1
+  blockCenter: {x: 0, y: -0.25}
+  blockBounds: {x: 1.5, y: 1}
