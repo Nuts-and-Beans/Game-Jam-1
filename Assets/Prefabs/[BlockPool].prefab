@@ -44,5 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a11c47f510c5d94193f494674db80a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: -4823538460134907165, guid: 360fa0b4c4ba5214faff142fb0c0a50f, type: 3}
+  prefabs:
+  - {fileID: 587532300309415548, guid: 537b337d32579b14989788c01bb3a25e, type: 3}
+  - {fileID: -8465156279731754826, guid: 7ee26c693f3cb48479ebb512e8096f7b, type: 3}
+  - {fileID: -1336870883307320459, guid: a11758e69ae945f44a772a97d5bf2104, type: 3}
+  - {fileID: -3022223606137460173, guid: b7bf8545c4b557b4c8c08709b5177e49, type: 3}
+  - {fileID: -4823538460134907165, guid: 360fa0b4c4ba5214faff142fb0c0a50f, type: 3}
+  - {fileID: -6794857355714707840, guid: fc70c1c1c7a27424aa9251dfd2a00dbe, type: 3}
+  - {fileID: -5398437163808500316, guid: d67ec2ebb8e71e349822614d6bfcb43c, type: 3}
   initialSpawnAmount: 50
