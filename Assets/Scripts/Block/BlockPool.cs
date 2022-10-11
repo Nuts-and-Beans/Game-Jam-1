@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class BlockPool : MonoBehaviour
 {
-  [SerializeField] private Block prefab;
+  [SerializeField] private Block[] prefabs;
   [SerializeField] private int initialSpawnAmount;
   
   private static BlockPool Instance;
   
-  private static Stack<Block> Pool;
+  private static Dictionary<BlockType, Stack<Block>> Pools;
+  private static Dictionary<BlockType, int> BlockTypeIndexs;
   private static List<Block> ActiveBlocks;
 
   private void Awake()
@@ -25,15 +26,24 @@ public class BlockPool : MonoBehaviour
     Instance = this;
     
     // Create pool variables
-    Pool         = new Stack<Block>(initialSpawnAmount);
-    ActiveBlocks = new List<Block>(initialSpawnAmount);
+    Pools           = new Dictionary<BlockType, Stack<Block>>(prefabs.Length);
+    ActiveBlocks    = new List<Block>(initialSpawnAmount * prefabs.Length);
+    BlockTypeIndexs = new (prefabs.Length);
 
-    // Spawn initial blocks
-    for (int i = 0; i < initialSpawnAmount; i++)
+    // Spawn initial block pools
+    for (int j = 0; j < prefabs.Length; ++j)
     {
-      Block block = SpawnNewBlock();
-      block.SetActive(false);
-      Pool.Push(block);
+      // add the block type to a dictionary for the index into the prefabs array (to make it easier to instantiate the blocks)
+      BlockTypeIndexs.Add(prefabs[j].Type, j);      
+      Pools.Add(prefabs[j].Type, new Stack<Block>(initialSpawnAmount));
+      
+      for (int i = 0; i < initialSpawnAmount; i++)
+      {
+        Block block = SpawnNewBlock(prefabs[j].Type);
+
+        block.SetActive(false);
+        Pools[block.Type].Push(block);        
+      }
     }
   }
 
@@ -43,23 +53,24 @@ public class BlockPool : MonoBehaviour
     
     Instance = null;
   }
+
   
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
-  private static Block SpawnNewBlock() => Instantiate(Instance.prefab, Vector3.zero, Quaternion.identity, Instance.transform);
+  private static Block SpawnNewBlock(BlockType type) => Instantiate(Instance.prefabs[BlockTypeIndexs[type]], Vector3.zero, Quaternion.identity, Instance.transform);
   
-  public static Block GetBlock()
+  public static Block GetBlock(BlockType type)
   {
     Debug.Assert(Instance != null, "A Block Pool Instance cannot be found! Please ensure one is placed in the scene.");
     
     Block block;
-    if (Pool.Count <= 0)
+    if (Pools[type].Count <= 0)
     {
       Debug.LogWarning("Spawning new blocks for pool! Consider resizing initial spawn amount.");
-      block = SpawnNewBlock();
+      block = SpawnNewBlock(type);
     }
     else
     {
-      block = Pool.Pop();
+      block = Pools[type].Pop();
     }
     
     block.SetActive(true);
@@ -78,6 +89,6 @@ public class BlockPool : MonoBehaviour
     
     block.SetActive(false);
     ActiveBlocks.Remove(block);
-    Pool.Push(block);
+    Pools[block.Type].Push(block);
   }
 }

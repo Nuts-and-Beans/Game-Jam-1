@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Random_Spawn : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class Random_Spawn : MonoBehaviour
     {
         var position = spawn.transform.position;
 
-        if (Input.GetKeyDown ("space"))
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             int ran_num = Random.Range(1, 3);
 
