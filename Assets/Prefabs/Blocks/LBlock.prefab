@@ -102,8 +102,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f244bcaaf144eea0f3c327e0f2bf90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 2356553358612645426}
+  - {fileID: 2356553359171574298}
+  - {fileID: 2356553359324543836}
+  - {fileID: 2356553359492404847}
   blockType: 4
   movementSpeed: 1
+  blockCenter: {x: 0, y: 0}
+  blockBounds: {x: 1, y: 1}
 --- !u!1 &2356553358612645431
 GameObject:
   m_ObjectHideFlags: 0

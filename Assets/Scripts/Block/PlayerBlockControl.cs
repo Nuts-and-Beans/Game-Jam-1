@@ -51,6 +51,7 @@ public class PlayerBlockControl : MonoBehaviour
   public void SetActiveBlock(Block block)
   {
     _activeBlock = block;
+    _activeBlock.OnBlockLockedIn += OnBlockLockedIn;
   }
 
   private void OnMovePerformed(InputAction.CallbackContext context)
@@ -74,7 +75,10 @@ public class PlayerBlockControl : MonoBehaviour
       _activeBlock.MovementMultiplier = Block.DefaultMovementMultiplier;
     }
   }
-  
+
+
+  // TODO(Zack): check for whether a block can actually move in that direction before we go in that direction
+  // probably requires blocks knowing about the left and right directions and querying what blocks are that way?
   private void MoveHorizontal(float x)
   {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -120,5 +124,13 @@ public class PlayerBlockControl : MonoBehaviour
 
     Transform blockTransform    = _activeBlock.transform;
     blockTransform.eulerAngles += rotationAxis * rotationAmount;
+  }
+
+  private void OnBlockLockedIn() {
+    // TODO(Zack): replace this with the [RandomBlockManager] so that we can keep track of how many blocks this player is using, and adjust certain settings depending on how many blocks are being used per player/overall
+    BlockType type = (BlockType)UnityEngine.Random.Range(0, (int)BlockType.MAX_BLOCK_TYPES);
+
+    _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
+    SetActiveBlock(BlockPool.GetBlock(type));
   }
 }

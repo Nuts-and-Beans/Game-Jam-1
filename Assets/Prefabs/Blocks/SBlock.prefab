@@ -542,6 +542,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f244bcaaf144eea0f3c327e0f2bf90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 6794375636079627904}
+  - {fileID: 6794375636613386920}
+  - {fileID: 6794375636523611118}
+  - {fileID: 6794375636422516445}
+  blockType: 0
   movementSpeed: 1
   blockCenter: {x: 0, y: 0.25}
   blockBounds: {x: 1.5, y: 1}
