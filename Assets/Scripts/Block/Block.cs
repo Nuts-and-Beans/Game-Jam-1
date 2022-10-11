@@ -58,11 +58,11 @@ public class Block : MonoBehaviour
     Rigidbody.gravityScale = 0;
     checkTimerCo = null;
 
-    /*
     for (int i = 0; i < colliders.Length; ++i)
     {
       colliders[i].isTrigger = true;
     }
+    /*
     */
     
     gameObject.SetActive(active);
@@ -79,6 +79,7 @@ public class Block : MonoBehaviour
     float newYPos = blockPosition.y - (MovementSpeed * Time.deltaTime);
     Rigidbody.MovePosition(new Vector2(blockPosition.x, newYPos));
   }
+
 
   private void OnCollisionEnter2D(Collision2D col)
   {
@@ -102,6 +103,32 @@ public class Block : MonoBehaviour
     }
   }
 
+
+
+  // TODO(Zack): check for contact point normals and see if they're horizontal, and don't allow them 
+  private void OnTriggerEnter2D(Collider2D col)
+  {
+    Debug.Log("Collision");
+
+    // HACK(Zack): this is a dirty way to stop the block from moving
+    if (!moving) return;
+    pausedMovement = true;
+
+    checkTimerCo = StartCoroutine(CheckContactTime());
+  }
+
+  private void OnTriggerExit2D(Collider2D col)
+  {
+    pausedMovement = false;
+    
+    if (!moving) return;
+    if (checkTimerCo != null)
+    {
+      StopCoroutine(checkTimerCo);
+    }
+  }
+  
+
   private IEnumerator CheckContactTime()
   {
     collisionCheckTimer = 0f;
@@ -123,11 +150,11 @@ public class Block : MonoBehaviour
     Rigidbody.mass = 5;
     Rigidbody.gravityScale = 1;
 
-    /*
     for (int i = 0; i < colliders.Length; ++i)
     {
       colliders[i].isTrigger = false;
     }
+    /*
     */
     
     OnBlockLockedIn?.Invoke();
