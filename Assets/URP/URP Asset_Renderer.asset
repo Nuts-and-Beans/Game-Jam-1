@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faf32861e56378d4b8e272ac4b459391, type: 3}
-  m_Name: Blit
+  m_Name: CRTBlit
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faf32861e56378d4b8e272ac4b459391, type: 3}
-  m_Name: Blit
+  m_Name: PixelBlit
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
