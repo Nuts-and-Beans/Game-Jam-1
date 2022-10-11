@@ -28,7 +28,7 @@ public class BlockSlowdown : MonoBehaviour
         {
             if (block.MovementMultiplier > 0.05f && blocks_amount > 0)
             {
-                block.MovementMultiplier = 1f / blocks_amount;
+                block.MovementMultiplier = 1f - (blocks_amount / 100f) * slowdownFactor;
             }
 
         }
