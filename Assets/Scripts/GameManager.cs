@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,14 +13,18 @@ public class GameManager : MonoBehaviour
   [SerializeField] private float gameStartTime = 5.0f;
   [SerializeField] private float gameTime      = 45.0f;
   [SerializeField] private Vector2 worldBounds;
-
+  
+  [Header("Physics Settings")]
+  [SerializeField] [Range(0.0f, 1.0f)] private float physicsRange = 0.5f;
+  
   // --- Static Variables --- //
-  public static Camera Camera           { get; private set; }
-  public static float GameTime          { get; private set; }
-  public static float CurrentGameTime   { get; private set; }
-  public static Vector2 WorldBounds     { get; private set; }
-  public static Vector2 HalfWorldBounds { get; private set; }
-
+  public static AudioManager AudioManager { get; private set; }
+  public static Camera Camera             { get; private set; }
+  public static float GameTime            { get; private set; }
+  public static float CurrentGameTime     { get; private set; }
+  public static Vector2 WorldBounds       { get; private set; }
+  public static Vector2 HalfWorldBounds   { get; private set; }
+ 
   // --- Static Events --- //
   // NOTE(WSWhitehouse): This event gets invoked when the game is started
   public Action OnGameStart;
@@ -34,6 +39,7 @@ public class GameManager : MonoBehaviour
   private void Awake()
   {
     // Set the static data
+    AudioManager    = FindObjectOfType<AudioManager>();
     Camera          = camera;
     GameTime        = gameTime;
     WorldBounds     = worldBounds;
@@ -45,7 +51,15 @@ public class GameManager : MonoBehaviour
     yield return new WaitForSeconds(gameStartTime);
     OnGameStart?.Invoke();
   }
-  
+
+  private void FixedUpdate()
+  {
+    if (Random.Range(0.0f, 1.0f) > physicsRange) return;
+    
+    Physics2D.Simulate(Time.deltaTime);
+    AudioManager.Play("MoveBlock");
+  }
+
 #if UNITY_EDITOR
   private void OnDrawGizmos()
   {
