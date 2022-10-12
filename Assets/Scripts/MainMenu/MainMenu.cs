@@ -14,9 +14,13 @@ public class MainMenu : MonoBehaviour
   [SerializeField] private float nextSceneWaitTimer = 1.5f;
   
   private bool _loadingScene = false;
+  
+  private delegate IEnumerator LoadNextSceneDel();
+  private LoadNextSceneDel LoadNextScene;
 
   private void Awake()
   {
+    LoadNextScene = __LoadNextScene;
     Debug.Assert(playerStatusText.Length == PlayerInput.MaxPlayerCount, "Player Status Text length doesn't match max player count!");
     
     // Force all players to disconnect on starting this scene so we can detect new players
@@ -41,7 +45,7 @@ public class MainMenu : MonoBehaviour
     if (!_loadingScene && PlayerInput.PlayerCount == PlayerInput.MaxPlayerCount)
     {
       _loadingScene = true;
-      StartCoroutine(LoadNextScene()); // TODO(WSWhitehouse): Remove delegate alloc
+      StartCoroutine(LoadNextScene());
     }
   }
 
@@ -56,7 +60,7 @@ public class MainMenu : MonoBehaviour
     }
   }
   
-  private IEnumerator LoadNextScene()
+  private IEnumerator __LoadNextScene()
   {
     yield return new WaitForSeconds(nextSceneWaitTimer);
     SceneManager.LoadScene(nextSceneIndex);

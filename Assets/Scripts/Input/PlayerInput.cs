@@ -60,7 +60,7 @@ public static class PlayerInput
     
     StartSearchingForPlayers();
   }
-  
+
   public static void StartSearchingForPlayers() { Input.OnNewDeviceDetected += OnNewDeviceDetected; } 
   public static void StopSearchingForPlayers()  { Input.OnNewDeviceDetected -= OnNewDeviceDetected; }
   
@@ -76,6 +76,9 @@ public static class PlayerInput
   
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
   public static bool IsPlayerValid(int index) => Players[index] != null;
+  
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static bool IsPlayerValid(Player index) => IsPlayerValid((int)index);
   
   private static void __OnNewDeviceDetected(InputDevice device, InputControlScheme controlScheme)
   {
