@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public enum BlockType
@@ -23,52 +24,66 @@ public class Block : MonoBehaviour
     public Transform LB1B;
     public Transform RB1B;
     public Transform RB2B;
-    
+
+    public GameObject LB2BG;
+    public GameObject LB1BG;
+    public GameObject RB1BG;
+    public GameObject RB2BG;
+
+    private Renderer LB2BR;
+    private Renderer LB1BR;
+    private Renderer RB1BR;
+    private Renderer RB2BR;
+
+    private Color newcolour;
+
+
     private int weightDistribution = 0;
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Output the Collider's GameObject's name
-        //      Debug.Log(collision.collider.name);
-
-
+      //  weightDistribution = 0;
         // Make an empty list to hold contact points
-        
+        ContactPoint2D[] contacts = new ContactPoint2D[10];
 
         // Get the contact points for this collision
-        int numContacts = 4;
-        if (!collide)
-        {
-            if (collision.collider.bounds.Contains(LB2B.position))
-            {
-                print("LB2B is inside collider");
-                weightDistribution = weightDistribution + 10;
+        int numContacts = collision.GetContacts(contacts);
 
-            }
-            if (collision.collider.bounds.Contains(LB1B.position))
+        // Iterate through each contact point
+        for (int i = 0; i < numContacts; i++)
+        {
+            Debug.Log(contacts[i].point);
+            Debug.Log("L2 " + LB2B.position);
+            Debug.Log("L1 " + LB1B.position);
+            Debug.Log("R1 " + RB1B.position);
+            Debug.Log("R2 " + RB2B.position);
+            // Test the distance from the contact point to the right hand
+            if (Vector2.Distance(contacts[i].point, LB2B.position) < .5f) 
             {
-                print("LB1B is inside collider");
+                weightDistribution = weightDistribution + 15;
+            }
+
+            // Test the distance from the contact point to the left hand
+            if (Vector2.Distance(contacts[i].point, LB1B.position) < .5f)
+            {
                 weightDistribution = weightDistribution + 25;
             }
-            if (collision.collider.bounds.Contains(RB2B.position))
+            // Test the distance from the contact point to the right hand
+            if (Vector2.Distance(contacts[i].point, RB2B.position) < .5f)
             {
-                print("RB2B is inside collider");
-                weightDistribution = weightDistribution + 10;
+                weightDistribution = weightDistribution + 15;
             }
-            if (collision.collider.bounds.Contains(RB1B.position))
+
+            // Test the distance from the contact point to the left hand
+            if (Vector2.Distance(contacts[i].point, RB1B.position) < .5f)
             {
-                print("RB1B is inside collider");
                 weightDistribution = weightDistribution + 25;
             }
+         
         }
         Debug.Log(weightDistribution);
-        collide = true;
-        if (weightDistribution < 25)
-        {
-            this.transform.TransformDirection(1000, 0, 0);
-            Destroy(this);
-        }
-      
+    
+            StartCoroutine(Falling());
         
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -92,7 +107,11 @@ public class Block : MonoBehaviour
   private void Awake()
   {
     Rigidbody = GetComponent<Rigidbody2D>();
-  }
+        LB1BR = LB1BG.GetComponent<Renderer>();
+        LB2BR = LB2BG.GetComponent<Renderer>();
+        RB1BR = RB1BG.GetComponent<Renderer>();
+        RB2BR = RB2BG.GetComponent<Renderer>();
+    }
 
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
   public void SetActive(bool active) => gameObject.SetActive(active);
@@ -106,7 +125,34 @@ public class Block : MonoBehaviour
             Rigidbody.MovePosition(new Vector2(blockPosition.x, newYPos));
         }
   }
-  
+    IEnumerator Falling()
+    {
+        yield return new WaitForSeconds(.2f);
+        if (weightDistribution < 25)
+        {
+            Debug.Log("1");
+            newcolour = new Color(0, 1, 0, 1);
+            LB1BR.material.SetColor("_colour1", newcolour);
+            LB2BR.material.SetColor("_colour2", newcolour);
+            RB1BR.material.SetColor("_colour3", newcolour);
+            RB2BR.material.SetColor("_colour4", newcolour);
+
+         
+            Debug.Log("2");
+            newcolour = new Color(1, 0, 0, 1);
+            LB1BR.material.SetColor("_colour1", newcolour);
+            LB2BR.material.SetColor("_colour2", newcolour);
+            RB1BR.material.SetColor("_colour3", newcolour);
+            RB2BR.material.SetColor("_colour4", newcolour);
+
+            yield return new WaitForSeconds(.7f);
+            Debug.Log("3");
+            Destroy(gameObject);
+        }
+
+
+    }
+
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
