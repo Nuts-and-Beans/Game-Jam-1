@@ -1,12 +1,7 @@
 // TODO(Zack): make this look better, currently looks pretty basic, and not particularly "CRT" like
 Shader "Atari/CRT" {
     Properties {
-        _MainTex ("Texture", 2D) = "white" {}
-        _VertsColour("Verts fill Colour", Range(0.0, 1.0))    = 0.0
-        _VertsColour2("Verts fill Colour 2", Range(0.0, 1.0)) = 0.0
-        _Contrast("Contrast", Float) = 0.0
-        _Brightness("Brightness", Float) = 0.0
-        _ScanColour("Scanline colour", Float) = 0.0
+        _MainTex ("Texture", 2D) = "white" {}       
     }
     
     SubShader {
@@ -46,35 +41,57 @@ Shader "Atari/CRT" {
                 return o;
             }
 
+
+
+            // https://www.shadertoy.com/view/MsXGD4
+            float scanline(float2 uv) {
+                return sin(_ScreenParams.y * uv.y * 0.7f - (_Time.y * 0.25f) * 10.f);
+            }
+
+            float slowscan(float2 uv) {
+                return sin(_ScreenParams.y * uv.y * 0.009f + (_Time.y * 0.25f) * 6.f);
+            }
             
+
+            // https://www.shadertoy.com/view/XtlSD7
+            float2 crt_curve_uv(float2 uv) {
+                uv = uv * 2.f - 1.f;
+                float2 offset = abs(uv.yx) / float2(4.f, 3.f);
+                uv = uv + uv * offset * offset;
+                uv = uv * 0.5f + 0.5f;
+                return uv;
+            }
+            
+            float3 draw_vignette(float3 colour, float2 uv) {
+                float vignette = uv.x * uv.y * (1.f - uv.x) * (1.f - uv.y);
+                vignette = clamp(pow(8.f * vignette, 0.3f), 0.f, 1.f);
+                colour *= vignette;
+                return colour;
+            }
+
+ 
             float4 frag(VS_Out i) : SV_Target {
-                float2 ps = i.scr_pos.xy * _ScreenParams.xy / i.scr_pos.w;
-                int pp = (int)ps.x % 3;
+                float2 uv = crt_curve_uv(i.uv);
+                float3 col = tex2D(_MainTex, uv);
 
-                float4 col  = tex2D(_MainTex, i.uv);
-                float4 muls = float4(0.f, 0.f, 0.f, 1.f);
-
-                // NOTE(Zack): depending on if the pixel position [pp] is [1, 2, 3] we set the pixel colour for the [rgb] effect of a CRT
-                if (pp == 1) {
-                    muls.r = _VertsColour;
-                    muls.g = _VertsColour2;
-                } else if (pp == 2) {
-                    muls.g = _VertsColour;
-                    muls.b = _VertsColour2;
-                } else {
-                    muls.b = _VertsColour;
-                    muls.r = _VertsColour2;
+                // this clamps the edge most regions of the screen to just be black
+                if (uv.x < 0.f || uv.x > 1.f || uv.y < 0.f || uv.y > 1.f) {
+                    col = float3(0.f, 0.f, 0.f);
                 }
 
-                // NOTE(Zack): every 3rd line we add a scan line
-                if ((int)ps.y % 3 == 0) {
-                    muls *= float4(_ScanColour, _ScanColour, _ScanColour, 1.f);
-                }
+                
+                col = draw_vignette(col, uv);
 
-                col *= muls;
-                col += (_Brightness / 255.f);
-                col  = col - _Contrast * (col - 1.f) * col * (col - 0.5);
-                return col;
+                // get the values for the animated scanline effects
+                float scan = scanline(uv);
+                float slow = slowscan(uv);
+
+                // interpolate between the different scanline effects
+                float3 final_col = col;
+                col = lerp(col, lerp(scan, slow, 0.25f), 0.5f);
+                col *= final_col;
+                
+                return float4(col, 1.f);
             }
             ENDCG
         }
