@@ -89,20 +89,20 @@ public class PlayerBlockControl : MonoBehaviour
       {
         case Player.INVALID:
         {
-          maxX = ( GameManager.HalfWorldBounds.x - _activeBlock.blockCenter.x) - (_activeBlock.blockBounds.x * 0.5f);
-          minX = (-GameManager.HalfWorldBounds.x - _activeBlock.blockCenter.x) + (_activeBlock.blockBounds.x * 0.5f);
+          maxX = ( GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) - (_activeBlock.BlockBounds.x * 0.5f);
+          minX = (-GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) + (_activeBlock.BlockBounds.x * 0.5f);
           break;
         }
         case Player.PLAYER_1:
         {
-          maxX = ( GameManager.PlayerSeparator - _activeBlock.blockCenter.x) - (_activeBlock.blockBounds.x * 0.5f);
-          minX = (-GameManager.HalfWorldBounds.x - _activeBlock.blockCenter.x) + (_activeBlock.blockBounds.x * 0.5f);
+          maxX = ( GameManager.PlayerSeparator   - _activeBlock.BlockCenter.x) - (_activeBlock.BlockBounds.x * 0.5f);
+          minX = (-GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) + (_activeBlock.BlockBounds.x * 0.5f);
           break;
         }
         case Player.PLAYER_2:
         {
-          maxX = (GameManager.HalfWorldBounds.x - _activeBlock.blockCenter.x) - (_activeBlock.blockBounds.x * 0.5f);
-          minX = (GameManager.PlayerSeparator - _activeBlock.blockCenter.x) + (_activeBlock.blockBounds.x * 0.5f);
+          maxX = (GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) - (_activeBlock.BlockBounds.x * 0.5f);
+          minX = (GameManager.PlayerSeparator   - _activeBlock.BlockCenter.x) + (_activeBlock.BlockBounds.x * 0.5f);
           break;
         }
         default: throw new ArgumentOutOfRangeException();
