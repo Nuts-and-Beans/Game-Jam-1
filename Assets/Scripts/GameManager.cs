@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
   [SerializeField] private Vector2 worldBounds;
   
   [Header("Physics Settings")]
-  [SerializeField] [Range(0.0f, 1.0f)] private float physicsRange = 0.5f;
+  [Range(0.0f, 1.0f)] public float PhysicsRange = 0.5f;
   
   // --- Static Variables --- //
   public static AudioManager AudioManager { get; private set; }
@@ -24,14 +24,7 @@ public class GameManager : MonoBehaviour
   public static float CurrentGameTime     { get; private set; }
   public static Vector2 WorldBounds       { get; private set; }
   public static Vector2 HalfWorldBounds   { get; private set; }
-  
-  private static float _physicalRange;
-  public static float PhysicsRange
-  {
-    get => _physicalRange;   
-    set => Mathf.Clamp(_physicalRange, 0.0f, 1.0f);
-  }
- 
+
   // --- Static Events --- //
   // NOTE(WSWhitehouse): This event gets invoked when the game is started@
   public Action OnGameStart;
@@ -51,7 +44,6 @@ public class GameManager : MonoBehaviour
     GameTime        = gameTime;
     WorldBounds     = worldBounds;
     HalfWorldBounds = WorldBounds * 0.5f;
-    PhysicsRange    = physicsRange;
   }
 
   private IEnumerator Start()
@@ -65,7 +57,7 @@ public class GameManager : MonoBehaviour
     if (Random.Range(0.0f, 1.0f) > PhysicsRange) return;
     
     Physics2D.Simulate(Time.deltaTime);
-    AudioManager.Play("MoveBlock");
+    // AudioManager.Play("MoveBlock");
   }
 
 #if UNITY_EDITOR
