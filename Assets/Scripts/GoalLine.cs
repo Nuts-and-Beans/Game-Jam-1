@@ -53,7 +53,7 @@ public class GoalLine : MonoBehaviour
 
   private void GoalLineReached()
   {
-    Debug.Log($"Player {((int)player) + 1} reached the goal line!");
+    Debug.Log($"Player {(((int)player) + 1).ToString()} reached the goal line!");
     // TODO: Fire end game UI and stuff...
   }
 }
