@@ -1,39 +1,41 @@
 ﻿using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public enum BlockType
-{
-  INVALID = -1,
-  S_BLOCK,
-  Z_BLOCK,
-  T_BLOCK,
-  O_BLOCK,
-  L_BLOCK,
-  J_BLOCK,
-  I_BLOCK,
-}
-
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Block : MonoBehaviour
 {
-
+  [SerializeField] private Player player; // TODO(WSWhitehouse): Remove this after testing
   [SerializeField] private BlockType blockType;
   [SerializeField] private float movementSpeed = 1.0f;
-  public Vector2 blockCenter = Vector2.zero;
-  public Vector2 blockBounds = Vector2.one;
+  [SerializeField] private Vector2 blockCenter = Vector2.zero;
+  [SerializeField] private Vector2 blockBounds = Vector2.one;
   
   public float MovementSpeed => movementSpeed * MovementMultiplier;
+  
+  public Vector2 BlockCenter => Vector3.Scale(transform.lossyScale, blockCenter);
+  public Vector2 BlockBounds => Vector3.Scale(transform.lossyScale, blockBounds);
   
   public const float DefaultMovementMultiplier  = 1.0f;
   public float MovementMultiplier { get; set; } = DefaultMovementMultiplier;
 
   public BlockType Type => blockType;
   
-  public Rigidbody2D Rigidbody { get; private set; }
+  public Rigidbody2D Rigidbody  { get; private set; }
+  public BoxCollider2D Collider { get; private set; }
+  
+  // NOTE(WSWhitehouse): Which player does this block belong too... 
+  public Player PlayerID { get; set; } = Player.INVALID;
 
   private void Awake()
   {
+    PlayerID = player; // TODO(WSWhitehouse): Remove this after testing
+    
     Rigidbody = GetComponent<Rigidbody2D>();
+    Collider  = GetComponent<BoxCollider2D>();
+    
+    Collider.offset = blockCenter;
+    Collider.size   = blockBounds;
   }
 
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -50,8 +52,8 @@ public class Block : MonoBehaviour
 #if UNITY_EDITOR
   private void OnDrawGizmos()
   {
-    Gizmos.color = Color.red;
-    Gizmos.DrawWireCube(transform.position + (Vector3)blockCenter, blockBounds);
+    Gizmos.color = Color.magenta;
+    Gizmos.DrawWireCube(transform.position + (Vector3)BlockCenter, BlockBounds);
   }
 #endif
 }
