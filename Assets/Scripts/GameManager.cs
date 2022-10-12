@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     if (Random.Range(0.0f, 1.0f) > PhysicsRange) return;
     
     Physics2D.Simulate(Time.deltaTime);
-    // AudioManager.Play("MoveBlock");
+    
   }
 
 #if UNITY_EDITOR

@@ -44,7 +44,8 @@ public class Block : MonoBehaviour
     Vector3 blockPosition = transform.position;
     float newYPos = blockPosition.y - (MovementSpeed * Time.deltaTime);
     Rigidbody.MovePosition(new Vector2(blockPosition.x, newYPos));
-  }
+    //AudioManager.Play("MovingBlock"); Vlad - Do not uncoment this will hurt your ears
+    }
   
 #if UNITY_EDITOR
   private void OnDrawGizmos()
