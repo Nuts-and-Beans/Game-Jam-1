@@ -1,22 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public enum BlockType
-{
-  INVALID = -1,
-  S_BLOCK,
-  Z_BLOCK,
-  T_BLOCK,
-  O_BLOCK,
-  L_BLOCK,
-  J_BLOCK,
-  I_BLOCK,
-}
-
 [RequireComponent(typeof(Rigidbody2D))]
 public class Block : MonoBehaviour
 {
-
+  [SerializeField] private Player player; // TODO(WSWhitehouse): Remove this after testing
   [SerializeField] private BlockType blockType;
   [SerializeField] private float movementSpeed = 1.0f;
   public Vector2 blockCenter = Vector2.zero;
@@ -30,9 +18,13 @@ public class Block : MonoBehaviour
   public BlockType Type => blockType;
   
   public Rigidbody2D Rigidbody { get; private set; }
+  
+  // NOTE(WSWhitehouse): Which player does this block belong too... 
+  public Player PlayerID { get; set; } = Player.INVALID;
 
   private void Awake()
   {
+    PlayerID = player; // TODO(WSWhitehouse): Remove this after testing
     Rigidbody = GetComponent<Rigidbody2D>();
   }
 
@@ -49,7 +41,7 @@ public class Block : MonoBehaviour
 #if UNITY_EDITOR
   private void OnDrawGizmos()
   {
-    Gizmos.color = Color.red;
+    Gizmos.color = Color.green;
     Gizmos.DrawWireCube(transform.position + (Vector3)blockCenter, blockBounds);
   }
 #endif

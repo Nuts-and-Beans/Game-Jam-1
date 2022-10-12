@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
   [SerializeField] private float gameStartTime = 5.0f;
   [SerializeField] private float gameTime      = 45.0f;
   [SerializeField] private Vector2 worldBounds;
+  [SerializeField] private float playerSeparator;
   
   [Header("Physics Settings")]
   [Range(0.0f, 1.0f)] public float PhysicsRange = 0.5f;
@@ -24,9 +25,10 @@ public class GameManager : MonoBehaviour
   public static float CurrentGameTime     { get; private set; }
   public static Vector2 WorldBounds       { get; private set; }
   public static Vector2 HalfWorldBounds   { get; private set; }
+  public static float PlayerSeparator     { get; private set; }
 
   // --- Static Events --- //
-  // NOTE(WSWhitehouse): This event gets invoked when the game is started@
+  // NOTE(WSWhitehouse): This event gets invoked when the game is started
   public Action OnGameStart;
   
   // NOTE(WSWhitehouse): This event gets invoked when a player wins
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
     GameTime        = gameTime;
     WorldBounds     = worldBounds;
     HalfWorldBounds = WorldBounds * 0.5f;
+    PlayerSeparator = playerSeparator;
   }
 
   private IEnumerator Start()
@@ -65,6 +68,11 @@ public class GameManager : MonoBehaviour
   {
     Gizmos.color = Color.red;
     Gizmos.DrawWireCube(transform.position, worldBounds);
+    
+    float separatorY  = worldBounds.y * 0.5f;
+    Vector2 sepTop    = new Vector2(playerSeparator,  separatorY);
+    Vector2 sepBottom = new Vector2(playerSeparator, -separatorY);
+    Gizmos.DrawLine(sepTop, sepBottom);
   }
 #endif
 }
