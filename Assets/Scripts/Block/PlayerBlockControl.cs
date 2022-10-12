@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerBlockControl : MonoBehaviour
 {
-  [SerializeField] private int playerIndex;
+  [SerializeField] private Player playerID;
   
   [Header("Movement Settings")]
   [SerializeField] private float horizontalMoveAmount   = 0.5f;
@@ -21,11 +22,11 @@ public class PlayerBlockControl : MonoBehaviour
   private bool _horizontalPressed = false;
   
   private const float MovementDeadZone = 0.05f;
-  private PlayerInput.InputData Input => PlayerInput.Players[playerIndex];
+  private PlayerInput.InputData Input => PlayerInput.Players[(int)playerID];
 
   private IEnumerator Start()
   {
-    yield return PlayerInput.WaitForValidPlayerInput(playerIndex);
+    yield return PlayerInput.WaitForValidPlayerInput((int)playerID);
 
     // NOTE(WSWhitehouse): Clamping rotation axis to ensure its in a 0-1 range. Otherwise, weird rotations will occur...
     rotationAxis = new Vector3(Mathf.Clamp01(rotationAxis.x), 
@@ -41,7 +42,7 @@ public class PlayerBlockControl : MonoBehaviour
 
   private void OnDestroy()
   {
-    if (!PlayerInput.IsPlayerValid(playerIndex)) return;
+    if (!PlayerInput.IsPlayerValid(playerID)) return;
     
     Input.Asset.Block.Move.performed   -= OnMovePerformed;
     Input.Asset.Block.Move.canceled    -= OnMovePerformed;
@@ -82,11 +83,31 @@ public class PlayerBlockControl : MonoBehaviour
     {
       Transform blockTransform = _activeBlock.transform;
       Vector3 blockPosition    = blockTransform.position;
-      
-      // Calculate the min and max bounds for this block
-      float maxX = ( GameManager.HalfWorldBounds.x - _activeBlock.blockCenter.x) - (_activeBlock.blockBounds.x * 0.5f);
-      float minX = (-GameManager.HalfWorldBounds.x - _activeBlock.blockCenter.x) + (_activeBlock.blockBounds.x * 0.5f);
 
+      float maxX, minX;
+      switch (_activeBlock.PlayerID)
+      {
+        case Player.INVALID:
+        {
+          maxX = ( GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) - (_activeBlock.BlockBounds.x * 0.5f);
+          minX = (-GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) + (_activeBlock.BlockBounds.x * 0.5f);
+          break;
+        }
+        case Player.PLAYER_1:
+        {
+          maxX = ( GameManager.PlayerSeparator   - _activeBlock.BlockCenter.x) - (_activeBlock.BlockBounds.x * 0.5f);
+          minX = (-GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) + (_activeBlock.BlockBounds.x * 0.5f);
+          break;
+        }
+        case Player.PLAYER_2:
+        {
+          maxX = (GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) - (_activeBlock.BlockBounds.x * 0.5f);
+          minX = (GameManager.PlayerSeparator   - _activeBlock.BlockCenter.x) + (_activeBlock.BlockBounds.x * 0.5f);
+          break;
+        }
+        default: throw new ArgumentOutOfRangeException();
+      }
+      
       float newXPos = Mathf.Clamp(blockPosition.x + moveAmount, minX, maxX);
       blockTransform.position = new Vector3(newXPos, blockPosition.y, blockPosition.z);
     }
