@@ -5,33 +5,41 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class MainMenu : MonoBehaviour
 {
   [SerializeField] private TMP_Text[] playerStatusText = Array.Empty<TMP_Text>();
   [SerializeField] private string playerActiveText = "Joined!";
   [Space]
-  [SerializeField] private int nextSceneIndex       = 1;
+  [SerializeField] private int nextSceneIndex = 1;
   [SerializeField] private float nextSceneWaitTimer = 1.5f;
   
   private bool _loadingScene = false;
-  
+
   private delegate IEnumerator LoadNextSceneDel();
   private LoadNextSceneDel LoadNextScene;
-
+  
   private void Awake()
   {
     LoadNextScene = __LoadNextScene;
-    Debug.Assert(playerStatusText.Length == PlayerInput.MaxPlayerCount, "Player Status Text length doesn't match max player count!");
-    
-    // Force all players to disconnect on starting this scene so we can detect new players
-    PlayerInput.RemoveAllPlayers();
-    
-    PlayerInput.OnPlayerJoined += OnPlayerJoined;
-    PlayerInput.StartSearchingForPlayers();
+      Debug.Assert(playerStatusText.Length == PlayerInput.MaxPlayerCount, "Player Status Text length doesn't match max player count!");
+
+      // Force all players to disconnect on starting this scene so we can detect new players
+      PlayerInput.RemoveAllPlayers();
+
+      PlayerInput.OnPlayerJoined += OnPlayerJoined;
+      PlayerInput.StartSearchingForPlayers();
   }
 
-  private void Start() => UpdateUI();
-
+  private void Start()
+  {
+      AudioManager.Play("Theme");
+      UpdateUI();
+  }
+  
   private void OnDestroy()
   {
     PlayerInput.OnPlayerJoined -= OnPlayerJoined;
@@ -46,6 +54,8 @@ public class MainMenu : MonoBehaviour
     {
       _loadingScene = true;
       StartCoroutine(LoadNextScene());
+      //AudioManager.Pause("Theme");
+
     }
   }
 
@@ -65,4 +75,37 @@ public class MainMenu : MonoBehaviour
     yield return new WaitForSeconds(nextSceneWaitTimer);
     SceneManager.LoadScene(nextSceneIndex);
   }
+  
+#if UNITY_EDITOR
+  /// <summary>
+  /// This is an editor only function! Do NOT call it from
+  /// normal gameplay code!
+  /// </summary>
+  public void EDITOR_LoadNextScene()
+  {
+    _loadingScene = true;
+    SceneManager.LoadScene(nextSceneIndex);
+  }
+#endif
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(MainMenu))]
+public class MainMenuEditor : ImprovedEditor<MainMenu>
+{
+  public override void OnInspectorGUI()
+  {
+    base.OnInspectorGUI();
+    
+    EditorGUILayout.Space();
+    
+    using (new EditorGUI.DisabledScope(!Application.isPlaying))
+    {
+      if (GUILayout.Button("Load Next Scene"))
+      {
+        Target.EDITOR_LoadNextScene();
+      }
+    }
+  }
+}
+#endif

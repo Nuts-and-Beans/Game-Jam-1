@@ -17,7 +17,7 @@ public class PlayerBlockControl : MonoBehaviour
   [SerializeField] private Vector3 rotationAxis = new Vector3(0.0f, 0.0f, 1.0f);
   [Space]
   [SerializeField] private Block startingBlock; // TODO(WSWhitehouse): Remove this as its for testing only
-  
+
   private Block _activeBlock      = null;
   private bool _horizontalPressed = false;
   
@@ -47,6 +47,7 @@ public class PlayerBlockControl : MonoBehaviour
     Input.Asset.Block.Move.performed   -= OnMovePerformed;
     Input.Asset.Block.Move.canceled    -= OnMovePerformed;
     Input.Asset.Block.Rotate.performed -= OnRotatePerformed;
+
   }
   
   public void SetActiveBlock(Block block)
@@ -110,6 +111,7 @@ public class PlayerBlockControl : MonoBehaviour
       
       float newXPos = Mathf.Clamp(blockPosition.x + moveAmount, minX, maxX);
       blockTransform.position = new Vector3(newXPos, blockPosition.y, blockPosition.z);
+      
     }
     
     if (_horizontalPressed)
@@ -141,5 +143,8 @@ public class PlayerBlockControl : MonoBehaviour
 
     Transform blockTransform    = _activeBlock.transform;
     blockTransform.eulerAngles += rotationAxis * rotationAmount;
-  }
+    AudioManager.Play("RotatingBlock"); /// Add ding sounds - vlad
+
+
+}
 }
