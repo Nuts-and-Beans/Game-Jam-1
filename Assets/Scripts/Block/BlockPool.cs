@@ -123,7 +123,7 @@ public class BlockPool : MonoBehaviour
                 {
                     // Choose one of 6 random block types.
                     int rand_num = Random.Range(0, 7);
-                    Block current_block = GetBlock(BlockType.S_BLOCK);
+                    Block current_block = GetBlock((BlockType)rand_num);
                     current_block.gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
                 }
                 else if (GUILayout.Button("Remove Active Block"))
