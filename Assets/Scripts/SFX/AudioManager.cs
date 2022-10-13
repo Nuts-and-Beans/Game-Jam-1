@@ -2,27 +2,24 @@ using UnityEngine.Audio;
 using System;
 using UnityEngine;
 
-
-//For this to be use, create a empty prefab and attatch the code to it and include the master sound mixer
-// to call on a spessific sfx use this line -> FindObjectOfType<AudioManager>().Play("NameOfSoundThatYouWantToPlay");
 public class AudioManager : MonoBehaviour
 {
 
-	public static AudioManager instance;
+	public static AudioManager i;
 
 	public AudioMixerGroup mixerGroup;
 
 	public Sound[] sounds;
-
+	
 	void Awake()
 	{
-		if (instance != null)
+		if (i != null)
 		{
 			Destroy(gameObject);
 		}
 		else
 		{
-			instance = this;
+			i = this;
 			DontDestroyOnLoad(gameObject);
 		}
 
@@ -31,12 +28,11 @@ public class AudioManager : MonoBehaviour
 			s.source = gameObject.AddComponent<AudioSource>();
 			s.source.clip = s.clip;
 			s.source.loop = s.loop;
-
 			s.source.outputAudioMixerGroup = mixerGroup;
 		}
 	}
 
-	public void Play(string sound)
+	private void PlayInstance(string sound)
 	{
 		Sound s = Array.Find(sounds, item => item.name == sound);
 		if (s == null)
@@ -49,6 +45,24 @@ public class AudioManager : MonoBehaviour
 		s.source.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
 
 		s.source.Play();
+		
+		//Debug.LogWarning("Sound: " + name + " not found!");
 	}
 
+	public static void Play(string sound)
+	{
+		if (i == null)
+		{
+			Debug.LogWarning("No audio Manager");
+
+			return;
+		}
+
+		i.PlayInstance(sound); 
+	}
+
+	public static void Pause(string sound)
+	{
+		//Figure out the stop command
+	}
 }
