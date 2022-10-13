@@ -18,6 +18,9 @@ public class BlockPool : MonoBehaviour
     private static Dictionary<BlockType, Stack<Block>> Pools;
     private static Dictionary<BlockType, int> BlockTypeIndexs;
     private static List<Block> ActiveBlocks;
+    private static int BlockTypeLength;
+    private static int next_block_index;
+    private static NextBlockUI nextBlockUI;
 
     private void Awake()
     {
@@ -53,6 +56,16 @@ public class BlockPool : MonoBehaviour
 
         // Find the block slowdown script
         blockSlowdown = FindObjectOfType<BlockSlowdown>();
+        nextBlockUI = FindObjectOfType<NextBlockUI>();
+
+        BlockTypeLength = BlockType.GetNames(typeof(BlockType)).Length - 1;
+
+    }
+
+    private void Start()
+    {
+        // NOTE(Seb): Must be called in the Start function as it won't show the correct block to begin with.
+        setNextBlockIndex();
     }
 
     private void OnDestroy()
@@ -107,6 +120,18 @@ public class BlockPool : MonoBehaviour
         return ActiveBlocks.Count;
     }
 
+    private static void setNextBlockIndex()
+    {
+        // Set the next block index to a random number of valid block types
+        // TODO(Seb): Maybe should set BlockTypeLength to a variable so it doesn't have to be calculated every time
+
+        int rand_num = Random.Range(0, BlockTypeLength);
+        next_block_index = rand_num;
+        nextBlockUI.changeNextBlockUI((BlockType)next_block_index);
+        Debug.Log("Next block is a :" + (BlockType)next_block_index);
+
+    }
+
     //Button to spawn blocks for testing.
 #if UNITY_EDITOR
     [CustomEditor(typeof(BlockPool))]
@@ -121,10 +146,10 @@ public class BlockPool : MonoBehaviour
             using (new EditorGUI.DisabledGroupScope(!Application.isPlaying))
                 if (GUILayout.Button("Spawn Block"))
                 {
-                    // Choose one of 6 random block types.
-                    int rand_num = Random.Range(0, 7);
-                    Block current_block = GetBlock((BlockType)rand_num);
+                    Block current_block = GetBlock((BlockType)next_block_index);
                     current_block.gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+                    setNextBlockIndex();
                 }
                 else if (GUILayout.Button("Remove Active Block"))
                 {
@@ -132,8 +157,6 @@ public class BlockPool : MonoBehaviour
                     Block current_block = ActiveBlocks[0];
                     ReturnBlock(current_block);
                 }
-
-
         }
     }
 #endif
