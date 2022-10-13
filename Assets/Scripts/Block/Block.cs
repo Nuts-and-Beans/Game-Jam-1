@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Block : MonoBehaviour
 {
-  [SerializeField] private Player player; // TODO(WSWhitehouse): Remove this after testing
+  [SerializeField] public Player player; // TODO(WSWhitehouse): Remove this after testing
   [SerializeField] private BlockType blockType;
   [SerializeField] private float movementSpeed = 1.0f;
   [SerializeField] private Vector2 blockCenter = Vector2.zero;

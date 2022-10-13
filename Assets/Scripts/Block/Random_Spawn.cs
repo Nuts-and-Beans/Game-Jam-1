@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,23 +6,20 @@ using UnityEngine;
 
 public class Random_Spawn : MonoBehaviour
 {
-    public GameObject spawn;
-    public BlockPool block;
 
-
+    [SerializeField] private GameObject spawn_1;
+    [SerializeField] private GameObject spawn_2;
 
 
     // Update is called once per frame
     void Update()
     {
-        RandomBlockSpawn();
+        RandomBlockSelect();
     }
 
     // spawns random block based on random number generated
-    void RandomBlockSpawn()
+    void RandomBlockSelect() 
     {
-        Random.Range(1, 8);
-
 
     }
 

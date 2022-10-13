@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -160,7 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7796412149516437099, guid: fc70c1c1c7a27424aa9251dfd2a00dbe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7796412149516437099, guid: fc70c1c1c7a27424aa9251dfd2a00dbe, type: 3}
       propertyPath: m_LocalPosition.z
@@ -298,7 +298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6794375637091520884, guid: 360fa0b4c4ba5214faff142fb0c0a50f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6794375637091520884, guid: 360fa0b4c4ba5214faff142fb0c0a50f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1347,6 +1347,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1656599466444749962, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
+      propertyPath: delay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656599466444749962, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
+      propertyPath: endscore
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656599466444749962, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
+      propertyPath: endScreen
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6381441968362733672, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -1394,6 +1406,18 @@ PrefabInstance:
     - target: {fileID: 6381441968362733674, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
       propertyPath: m_Name
       value: '[GameManager]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022490706150833331, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
+      propertyPath: delay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022490706150833331, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
+      propertyPath: endscore
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022490706150833331, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
+      propertyPath: endScreen
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}

@@ -26,10 +26,11 @@ public class GameManager : MonoBehaviour
   public static Vector2 WorldBounds       { get; private set; }
   public static Vector2 HalfWorldBounds   { get; private set; }
   public static float PlayerSeparator     { get; private set; }
+  public static Player playerwon          { get; set; }
 
-  // --- Static Events --- //
-  // NOTE(WSWhitehouse): This event gets invoked when the game is started
-  public Action OnGameStart;
+    // --- Static Events --- //
+    // NOTE(WSWhitehouse): This event gets invoked when the game is started
+    public Action OnGameStart;
   
   // NOTE(WSWhitehouse): This event gets invoked when a player wins
   public delegate void GameWin(int playerID);
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
     WorldBounds     = worldBounds;
     HalfWorldBounds = WorldBounds * 0.5f;
     PlayerSeparator = playerSeparator;
+    playerwon       = Player.INVALID;
   }
 
   private IEnumerator Start()
