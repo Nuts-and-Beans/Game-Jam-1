@@ -23,15 +23,15 @@ public class Platform : MonoBehaviour
         {
             p1_platforms.Add(i, Instantiate(platform_list[i]));
             p1_platforms[i].localPosition = (Vector3.left * 4) + (Vector3.down * 4);
-            p1_platforms[i].parent.gameObject.SetActive(false);
+            p1_platforms[i].gameObject.SetActive(false);
             
             p2_platforms.Add(i, Instantiate(platform_list[i]));
             p2_platforms[i].localPosition= (Vector3.right*4)+(Vector3.down*4);
-            p2_platforms[i].parent.gameObject.SetActive(false);
+            p2_platforms[i].gameObject.SetActive(false);
         }
         int randnum = Random.Range(0, platform_list.Capacity - 1);
-        p1_platforms[randnum].parent.gameObject.SetActive(true);
-        p2_platforms[randnum].parent.gameObject.SetActive(true);
+        p1_platforms[randnum].gameObject.SetActive(true);
+        p2_platforms[randnum].gameObject.SetActive(true);
 
     }
 
@@ -43,11 +43,11 @@ public class Platform : MonoBehaviour
 
     void spawnPlatforms()
     {
-     p1_platforms[prev_plat].parent.gameObject.SetActive(false);
-     p2_platforms[prev_plat].parent.gameObject.SetActive(false);
+     p1_platforms[prev_plat].gameObject.SetActive(false);
+     p2_platforms[prev_plat].gameObject.SetActive(false);
      int randnum = Random.Range(0, platform_list.Capacity);
-     p1_platforms[randnum].parent.gameObject.SetActive(true);
-     p2_platforms[randnum].parent.gameObject.SetActive(true);
+     p1_platforms[randnum].gameObject.SetActive(true);
+     p2_platforms[randnum].gameObject.SetActive(true);
      prev_plat = randnum;
     }
 
