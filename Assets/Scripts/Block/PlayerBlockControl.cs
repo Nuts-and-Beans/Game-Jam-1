@@ -18,6 +18,7 @@ public class PlayerBlockControl : MonoBehaviour
   [Space]
   [SerializeField] private Block startingBlock; // TODO(WSWhitehouse): Remove this as its for testing only
 
+    private GameObject[] blocksArray;
   private Block _activeBlock      = null;
   private bool _horizontalPressed = false;
   
@@ -37,10 +38,24 @@ public class PlayerBlockControl : MonoBehaviour
     Input.Asset.Block.Move.canceled    += OnMovePerformed;
     Input.Asset.Block.Rotate.performed += OnRotatePerformed;
     
-    SetActiveBlock(startingBlock); // TODO(WSWhitehouse): Remove this as its for testing only
+   
   }
+    private void Update()
+    {
+        blocksArray = GameObject.FindGameObjectsWithTag("Block");
+        foreach (GameObject aBlock in blocksArray)
+        {
+            if(aBlock.GetComponent<TestControl>().control == true)
+            {
+                if (aBlock.GetComponent<Block>().PlayerID == playerID)
+                {
+                    SetActiveBlock(aBlock.GetComponent<Block>());
+                }
+            }
+        }
+    }
 
-  private void OnDestroy()
+    private void OnDestroy()
   {
     if (!PlayerInput.IsPlayerValid(playerID)) return;
     
