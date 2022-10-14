@@ -19,9 +19,14 @@ public class NextBlockUI : MonoBehaviour
 
     private Image image;
 
-    private void Start()
+    private void Awake()
     {
         image = GetComponent<Image>();
+    }
+
+    private void Start()
+    {
+
     }
 
     public void changeNextBlockUI(BlockType blockType)
