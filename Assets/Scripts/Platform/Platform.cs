@@ -9,15 +9,30 @@ public class Platform : MonoBehaviour
     [SerializeField]
     public List<Transform> platform_list;
 
-    private Transform p1_plat;
-    private Transform p2_plat;
+    private Dictionary<int, Transform> p1_platforms;
+    private Dictionary<int, Transform> p2_platforms;
+ 
+    
+    private int prev_plat;
     void Start()
     {
-        int platnumber = Random.Range(0, platform_list.Capacity-1);
-        p1_plat = Instantiate(platform_list[platnumber]);
-        p2_plat = Instantiate(platform_list[platnumber]);
-        p1_plat.localPosition = (Vector3.left * 4)+(Vector3.down*4);
-        p2_plat.localPosition = (Vector3.right*4)+(Vector3.down*4);
+        //instantiate platforms in separate dictionaries
+        p1_platforms = new Dictionary<int, Transform>(platform_list.Capacity);
+        p2_platforms = new Dictionary<int, Transform>(platform_list.Capacity);
+        for(int i = 0; i < platform_list.Capacity-1; i++)
+        {
+            p1_platforms.Add(i, Instantiate(platform_list[i]));
+            p1_platforms[i].localPosition = (Vector3.left * 4) + (Vector3.down * 4);
+            p1_platforms[i].parent.gameObject.SetActive(false);
+            
+            p2_platforms.Add(i, Instantiate(platform_list[i]));
+            p2_platforms[i].localPosition= (Vector3.right*4)+(Vector3.down*4);
+            p2_platforms[i].parent.gameObject.SetActive(false);
+        }
+        int randnum = Random.Range(0, platform_list.Capacity - 1);
+        p1_platforms[randnum].parent.gameObject.SetActive(true);
+        p2_platforms[randnum].parent.gameObject.SetActive(true);
+
     }
 
     // Update is called once per frame
@@ -26,9 +41,14 @@ public class Platform : MonoBehaviour
        
     }
 
-    void onGameEnd()
+    void spawnPlatforms()
     {
-        p1_plat.parent.gameObject.SetActive(false);
-        p2_plat.parent.gameObject.SetActive(false);
+     p1_platforms[prev_plat].parent.gameObject.SetActive(false);
+     p2_platforms[prev_plat].parent.gameObject.SetActive(false);
+     int randnum = Random.Range(0, platform_list.Capacity);
+     p1_platforms[randnum].parent.gameObject.SetActive(true);
+     p2_platforms[randnum].parent.gameObject.SetActive(true);
+     prev_plat = randnum;
     }
+
 }
