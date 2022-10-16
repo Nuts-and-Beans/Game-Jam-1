@@ -20,7 +20,7 @@ public class EndGame_Screen : MonoBehaviour
 
     IEnumerator endGame() 
     {
-        winID.text = ($"WINNER P {(((int)GameManager.playerwon) + 1).ToString()}");
+        winID.text = ($"WINNER P{(((int)GameManager.playerwon) + 1).ToString()}");
         yield return new WaitForSeconds(delay);
 
         replay.SetActive(true);
