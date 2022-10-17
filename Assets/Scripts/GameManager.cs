@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [Header("Physics Settings")]
     [Range(0.0f, 1.0f)] public float PhysicsRange = 0.5f;
 
+
     // --- Static Variables --- //
     public static AudioManager AudioManager { get; private set; }
     public static Camera Camera { get; private set; }
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public static Vector2 WorldBounds { get; private set; }
     public static Vector2 HalfWorldBounds { get; private set; }
     public static float PlayerSeparator { get; private set; }
+    public static Player playerwon {get; set;}
 
     // --- Static Events --- //
     // NOTE(WSWhitehouse): This event gets invoked when the game is started
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
         WorldBounds = worldBounds;
         HalfWorldBounds = WorldBounds * 0.5f;
         PlayerSeparator = playerSeparator;
+        playerwon = Player.INVALID;
     }
 
     private IEnumerator Start()

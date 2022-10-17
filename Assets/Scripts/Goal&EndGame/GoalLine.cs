@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class GoalLine : MonoBehaviour
 {
   [SerializeField] private Player player;
   [Tooltip("How long blocks can stay in the trigger before calling it a win!")]
   [SerializeField] private float timer;
+  [SerializeField] private float delay;
   
   private int _blockCount    = 0;
   private float _timer       = 0.0f;
   private bool _timerReached = false;
+
 
   private void OnTriggerEnter2D(Collider2D other)
   {
@@ -19,7 +25,9 @@ public class GoalLine : MonoBehaviour
     
     // NOTE(WSWhitehouse): Clamping block count so it can't go below 0
     _blockCount = Mathf.Clamp(_blockCount + 1, 0, int.MaxValue);
-  }
+
+        StartCoroutine(GoalLineReached());
+    }
 
   private void OnTriggerExit2D(Collider2D other)
   {
@@ -47,13 +55,19 @@ public class GoalLine : MonoBehaviour
     if (_timer >= timer)
     {
       _timerReached = true;
-      GoalLineReached();
+      StartCoroutine (GoalLineReached());
     }
   }
 
-  private void GoalLineReached()
+  private IEnumerator GoalLineReached()
   {
-    Debug.Log($"Player {(((int)player) + 1).ToString()} reached the goal line!");
     // TODO: Fire end game UI and stuff...
+    Debug.Log($"Player {(((int)player) + 1).ToString()} reached the goal line!");
+
+    GameManager.playerwon = player;
+
+    yield return new WaitForSeconds(delay);
+    SceneManager.LoadScene(2);
+
   }
 }
