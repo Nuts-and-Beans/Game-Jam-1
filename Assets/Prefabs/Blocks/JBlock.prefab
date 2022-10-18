@@ -452,6 +452,7 @@ GameObject:
   - component: {fileID: -8465156279731754826}
   - component: {fileID: 1547378687376710090}
   - component: {fileID: 4810265517920053721}
+  - component: {fileID: 1614303994926643293}
   m_Layer: 0
   m_Name: JBlock
   m_TagString: Block
@@ -543,6 +544,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &1614303994926643293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547378687376710092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91485a6b56b381e4581274b6917a8ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  block1: {fileID: 0}
+  block2: {fileID: 0}
+  block3: {fileID: 0}
+  player: 1
 --- !u!1 &1547378687703836196
 GameObject:
   m_ObjectHideFlags: 0

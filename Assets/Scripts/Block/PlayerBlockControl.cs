@@ -45,7 +45,7 @@ public class PlayerBlockControl : MonoBehaviour
         blocksArray = GameObject.FindGameObjectsWithTag("Block");
         foreach (GameObject aBlock in blocksArray)
         {
-            if(aBlock.GetComponent<TestControl>().control == true)
+            if(aBlock.GetComponent<Random_Spawn>().control == true)
             {
                 if (aBlock.GetComponent<Block>().PlayerID == playerID)
                 {

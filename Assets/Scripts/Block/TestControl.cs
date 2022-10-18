@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestControl : MonoBehaviour
 {
-    public bool control = true;
+    
     // Start is called before the first frame update
     void Start()
     {

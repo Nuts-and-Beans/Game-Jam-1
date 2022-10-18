@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 587532300309415548}
   - component: {fileID: 5870711999900991854}
   - component: {fileID: 7008195676782362357}
-  - component: {fileID: -2128805794787159800}
   - component: {fileID: 5406638109472960814}
   m_Layer: 0
   m_Name: IBlock
@@ -105,19 +104,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-2128805794787159800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5870711999900991848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d32d3db38f13ea42866e9039090f260, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  control: 1
 --- !u!114 &5406638109472960814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +119,7 @@ MonoBehaviour:
   block1: {fileID: 7796412149516437098, guid: fc70c1c1c7a27424aa9251dfd2a00dbe, type: 3}
   block2: {fileID: 6794375637091520885, guid: 360fa0b4c4ba5214faff142fb0c0a50f, type: 3}
   block3: {fileID: 7796412149516437098, guid: fc70c1c1c7a27424aa9251dfd2a00dbe, type: 3}
+  control: 1
   player: 1
 --- !u!1 &5870712000144309888
 GameObject:

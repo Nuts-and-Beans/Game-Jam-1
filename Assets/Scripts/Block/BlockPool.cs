@@ -11,7 +11,7 @@ public class BlockPool : MonoBehaviour
   
   private static Dictionary<BlockType, Stack<Block>> Pools;
   private static Dictionary<BlockType, int> BlockTypeIndexs;
-  private static List<Block> ActiveBlocks;
+  public static List<Block> ActiveBlocks;
 
   private void Awake()
   {
