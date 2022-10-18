@@ -35,8 +35,8 @@ public class EndGame_Screen : MonoBehaviour
             AudioManager.Play("Win");
         }
         
-        p1Score.text = $"P1 {100 * scoreMultiplier}";
-        p2Score.text = $"P1 {100 * scoreMultiplier}";
+        p1Score.text = $"P1 {Random_Spawn.p1Score * scoreMultiplier}";
+        p2Score.text = $"P2 {Random_Spawn.p2Score * scoreMultiplier}";
       
         yield return new WaitForSeconds(delay);
 

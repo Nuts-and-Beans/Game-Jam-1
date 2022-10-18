@@ -20,11 +20,12 @@ public class BlockKillVolume : MonoBehaviour {
         }
 
         if (block == null) return;
+
+        // signal the player controller that they should not be controlling this block anymore
         if (block.IsControlled) {
-            Debug.Log($"Controlled BlockKilled: {block.PlayerID}");
             OnControlledBlockKilled?.Invoke(block.PlayerID);
         }
         
-        BlockPool.ReturnBlock(block);
+        Random_Spawn.ReturnBlock(block);
     }
 }

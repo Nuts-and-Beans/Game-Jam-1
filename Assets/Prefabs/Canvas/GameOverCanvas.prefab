@@ -350,7 +350,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 192, y: 160}
+  m_ReferenceResolution: {x: 160, y: 192}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
@@ -373,8 +373,8 @@ MonoBehaviour:
   winID: {fileID: 2975001382945032816}
   replay: {fileID: 0}
   delay: 3
-  p1Score: {fileID: 0}
-  p2Score: {fileID: 0}
+  p1Score: {fileID: 8956345678532128300}
+  p2Score: {fileID: 5555579263195066104}
   scoreMultiplier: 100
 --- !u!1 &2975001381827012550
 GameObject:
