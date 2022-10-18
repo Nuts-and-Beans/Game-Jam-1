@@ -1114,6 +1114,18 @@ PrefabInstance:
       propertyPath: delay
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6381441966984349011, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.037824854
+      objectReference: {fileID: 0}
+    - target: {fileID: 6381441966984349011, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.44211307
+      objectReference: {fileID: 0}
+    - target: {fileID: 6381441966984349011, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.4716981
+      objectReference: {fileID: 0}
     - target: {fileID: 6381441968362733672, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
       propertyPath: m_RootOrder
       value: 7

@@ -1,4 +1,3 @@
-// TODO(Zack): make this look better, currently looks pretty basic, and not particularly "CRT" like
 Shader "Atari/CRT" {
     Properties {
         _MainTex ("Texture", 2D) = "white" {}       
@@ -21,7 +20,6 @@ Shader "Atari/CRT" {
             struct VS_Out {
                 float4 pos : SV_POSITION;
                 float2 uv  : TEXCOORD0;
-                float4 scr_pos : TEXCOORD1;
             };
 
             sampler2D _MainTex;
@@ -37,7 +35,6 @@ Shader "Atari/CRT" {
                 VS_Out o;
                 o.pos = UnityObjectToClipPos(v.pos);
                 o.uv  = TRANSFORM_TEX(v.uv, _MainTex);
-                o.scr_pos = ComputeScreenPos(o.pos);
                 return o;
             }
 
@@ -49,21 +46,21 @@ Shader "Atari/CRT" {
             }
 
             float slowscan(float2 uv) {
-                return sin(_ScreenParams.y * uv.y * 0.009f + (_Time.y * 0.25f) * 6.f);
+                return sin(_ScreenParams.y * uv.y * 0.09f + (_Time.y * 0.25f) * 6.f);
             }
             
 
             // https://www.shadertoy.com/view/XtlSD7
             float2 crt_curve_uv(float2 uv) {
-                uv = uv * 2.f - 1.f;
-                float2 offset = abs(uv.yx) / float2(4.f, 3.f);
-                uv = uv + uv * offset * offset;
-                uv = uv * 0.5f + 0.5f;
+                uv = (uv * 2.f) - 1.f;
+                float2 offset = abs(uv.yx) / float2(6.f, 5.f);
+                uv = uv + ((uv * offset) * offset);
+                uv = (uv * 0.5f) + 0.5f;
                 return uv;
             }
             
             float3 draw_vignette(float3 colour, float2 uv) {
-                float vignette = uv.x * uv.y * (1.f - uv.x) * (1.f - uv.y);
+                float vignette = (uv.x * uv.y) * (1.f - uv.x) * (1.f - uv.y);
                 vignette = clamp(pow(8.f * vignette, 0.3f), 0.f, 1.f);
                 colour *= vignette;
                 return colour;
@@ -88,9 +85,13 @@ Shader "Atari/CRT" {
 
                 // interpolate between the different scanline effects
                 float3 final_col = col;
-                col = lerp(col, lerp(scan, slow, 0.25f), 0.5f);
+                col = lerp(col, lerp(scan, slow, 0.25f), 0.025f);
+
+                // NOTE(Zack): we do this multiplication to remove the scan lines over the black borders of the screen
                 col *= final_col;
-                
+
+                // NOTE(Zack): we then do this division to return the colour to the original colour
+                col /= final_col;
                 return float4(col, 1.f);
             }
             ENDCG
