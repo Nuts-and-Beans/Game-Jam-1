@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 1
-  collisionLayer: 7
+  collisionLayer: 0
   horizontalMoveAmount: 0.5
   downMovementMultiplier: 7
   rotationAmount: 90
@@ -827,8 +827,8 @@ MonoBehaviour:
   - {fileID: 155308340843276231, guid: 714a9adcd5757a24292d72d99779331a, type: 3}
   - {fileID: 7843232669404496736, guid: ab78ab67b533bac4aa8f9ee397a75a10, type: 3}
   - {fileID: 3037171077981215682, guid: 4244c014fb67f7f468dd373445e04cf5, type: 3}
-  p1_layer: 6
-  p2_layer: 7
+  p1_layer: 0
+  p2_layer: 0
 --- !u!4 &1762454251
 Transform:
   m_ObjectHideFlags: 0
@@ -874,7 +874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
-  collisionLayer: 6
+  collisionLayer: 0
   horizontalMoveAmount: 0.5
   downMovementMultiplier: 7
   rotationAmount: 90
@@ -1041,22 +1041,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1656599466444749962, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
-      propertyPath: delay
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5054633387723382827, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -52.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6381441967276484951, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -52.80002
-      objectReference: {fileID: 0}
-    - target: {fileID: 6381441968105414335, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 197.20003
-      objectReference: {fileID: 0}
     - target: {fileID: 6381441968362733672, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1101,17 +1085,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6381441968362733673, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
-      propertyPath: physicsRange
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6381441968362733674, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
       propertyPath: m_Name
       value: '[GameManager]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 8022490706150833331, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}
-      propertyPath: delay
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15d5e9ca44f0dc04b84da6e9cff85025, type: 3}

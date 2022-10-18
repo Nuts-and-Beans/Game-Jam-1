@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -64,7 +65,13 @@ public class GameManager : MonoBehaviour
         if (Random.Range(0.0f, 1.0f) > PhysicsRange) return;
 
         Physics2D.Simulate(Time.deltaTime);
-
+        CurrentGameTime += Time.deltaTime;
+        
+        if (CurrentGameTime >= GameTime)
+        {
+          playerwon = Player.INVALID;
+          SceneManager.LoadScene(2);
+        }
     }
 
 #if UNITY_EDITOR

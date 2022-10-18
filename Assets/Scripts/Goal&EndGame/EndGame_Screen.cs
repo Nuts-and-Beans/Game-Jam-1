@@ -20,7 +20,15 @@ public class EndGame_Screen : MonoBehaviour
 
     IEnumerator endGame() 
     {
-        winID.text = ($"WINNER P{(((int)GameManager.playerwon) + 1).ToString()}");
+        if (GameManager.playerwon == Player.INVALID)
+        {
+            winID.text = ($"TIMEOUT! NO WINNER.");
+        }
+        else
+        {
+            winID.text = ($"WINNER P{(((int)GameManager.playerwon) + 1).ToString()}");
+        }
+      
         yield return new WaitForSeconds(delay);
 
         replay.SetActive(true);
