@@ -14,6 +14,9 @@ public class Random_Spawn : MonoBehaviour {
 
     private static BlockType p1NextBlockType;
     private static BlockType p2NextBlockType;
+
+    public static int p1Score;
+    public static int p2Score;
     
 
     private void Awake() {
@@ -37,6 +40,10 @@ public class Random_Spawn : MonoBehaviour {
                 newBlock.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 newBlock.transform.rotation = Quaternion.identity;
                 newBlock.MovementMultiplier = Block.DefaultMovementMultiplier;
+
+                
+                // increment the player score
+                p1Score += 1;
                 
                 return newBlock;
             } break;
@@ -52,6 +59,10 @@ public class Random_Spawn : MonoBehaviour {
                 newBlock.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 newBlock.transform.rotation = Quaternion.identity;
                 newBlock.MovementMultiplier = Block.DefaultMovementMultiplier;
+
+                
+                // increment the player score
+                p2Score += 1;
                 
                 return newBlock;
             } break;
@@ -60,6 +71,29 @@ public class Random_Spawn : MonoBehaviour {
         }
     }
 
+    public static void ReturnBlock(Block block) {
+        switch (block.PlayerID) {
+            case Player.PLAYER_1: {
+                p1Score -= 1;
+
+                // clamp score to never go below 0
+                if (p1Score < 0) p1Score = 0;
+            } break;
+
+            case Player.PLAYER_2: {
+                p2Score -= 1;
+
+                // clamp score to never go below 0
+                if (p2Score < 0) p1Score = 0;
+                
+            } break;
+
+            default: break;
+        }
+
+        // return block to the pool
+        BlockPool.ReturnBlock(block);        
+    }
 
     public static BlockType GetPlayerNextBlockType(Player id) {
         switch (id) {
