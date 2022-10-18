@@ -86,14 +86,14 @@ public class Block : MonoBehaviour
         StopCoroutine(waitTimerCo);
     }
 
-#else    
+#else
     private void OnCollisionEnter2D(Collision2D col) {
         if (col.gameObject.layer != this.gameObject.layer) return;
             
         // stops stationary blocks from having the logic below run
         if (!IsControlled) return;
 
-        Debug.Log($"Contacts: {}");
+        Debug.Log($"Contacts: {col.contacts.Length}");
         waitTimerCo = StartCoroutine(WaitBeforeLockIn());
     }
 

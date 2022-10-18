@@ -85,6 +85,28 @@ public static class PlayerInput
     int currentPlayerCount = PlayerCount;
     if (currentPlayerCount == MaxPlayerCount) return; 
     
+    if (device is Keyboard)
+    {
+      switch (currentPlayerCount)
+      {
+        case 0:
+        {
+          const int playerID = (int)Player.PLAYER_1;
+          Players[playerID]  = new InputData(device, Input.KeyboardControlSchemes[playerID]);
+          OnPlayerJoined?.Invoke(playerID);
+        } goto case 1;
+          
+        case 1:
+        {
+          const int playerID = (int)Player.PLAYER_2;
+          Players[playerID]  = new InputData(device, Input.KeyboardControlSchemes[playerID]);
+          OnPlayerJoined?.Invoke(playerID);
+        } goto default;
+          
+        default: return;
+      }
+    }
+    
     Players[currentPlayerCount] = new InputData(device, controlScheme);
     OnPlayerJoined?.Invoke(currentPlayerCount);
   }
