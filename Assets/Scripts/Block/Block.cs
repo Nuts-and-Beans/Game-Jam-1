@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+
+// BUG(Zack): block is not clamped to their side of the screen
 [RequireComponent(typeof(Rigidbody2D))]
 public class Block : MonoBehaviour
 {
@@ -14,7 +16,6 @@ public class Block : MonoBehaviour
 
     [Header("Collision Settings")]
     [SerializeField] private float waitBeforeLockInPlaceTimer = 0.05f;
-    [SerializeField] private ContactFilter2D filter;
     [SerializeField] private Collider2D[] colliders;
 
     public float MovementSpeed => movementSpeed * MovementMultiplier;
@@ -40,7 +41,7 @@ public class Block : MonoBehaviour
     private delegate IEnumerator BlockWaitCo();
     private BlockWaitCo WaitBeforeLockIn;
     
-    private bool moving = false;
+    public bool IsControlled { get; private set; } = false;
     private Coroutine waitTimerCo;
 
     private ContactPoint2D[] contacts = new ContactPoint2D[15];
@@ -57,7 +58,7 @@ public class Block : MonoBehaviour
     private void FixedUpdate()
     {
         // HACK(Zack): shouldn't be doing this check, but it's a quick hacky fix for now
-        if (!moving) return;
+        if (!IsControlled) return;
 
         
         Vector3 blockPosition = transform.position;
@@ -67,43 +68,69 @@ public class Block : MonoBehaviour
     }
 
 
+    private const bool USE_TRIGGERS = false;
+#if USE_TRIGGERS
     private void OnTriggerEnter2D(Collider2D col) {
+        if (col.gameObject.layer != this.gameObject.layer) return;
+            
         // stops stationary blocks from having the logic below run
-        if (!moving) return;
+        if (!IsControlled) return;
 
         waitTimerCo = StartCoroutine(WaitBeforeLockIn());
     }
 
     private void OnTriggerExit2D(Collider2D col) {
-        if (!moving) return;
+        if (!IsControlled) return;
 
         if (waitTimerCo == null) return;
         StopCoroutine(waitTimerCo);
     }
-    
+
+#else    
+    private void OnCollisionEnter2D(Collision2D col) {
+        if (col.gameObject.layer != this.gameObject.layer) return;
+            
+        // stops stationary blocks from having the logic below run
+        if (!IsControlled) return;
+
+        Debug.Log($"Contacts: {}");
+        waitTimerCo = StartCoroutine(WaitBeforeLockIn());
+    }
+
+    private void OnCollisionExit2D(Collision2D col) {
+        if (!IsControlled) return;
+
+        if (waitTimerCo == null) return;
+        StopCoroutine(waitTimerCo);
+    }
+#endif    
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetActive(bool active) {
-        moving = true;
+        IsControlled = true;
 
+#if USE_TRIGGERS
         // we set the newly active block to be a trigger collider, so it doesn't push the stationary blocks with physics
         for (int i = 0; i < colliders.Length; ++i) {
             colliders[i].isTrigger = true;
         }
-        
+
+#endif
         gameObject.SetActive(active);
     }
 
     private void SetBlockStationary() {
-        moving = false;
+        IsControlled = false;
         Rigidbody.mass = 5;
         Rigidbody.gravityScale = 1;
 
+#if USE_TRIGGERS
         // we make all of the colliders physical colliders again
         for (int i = 0; i < colliders.Length; ++i) {
             colliders[i].isTrigger = false;
         }
-
+#endif
+        
         OnBlockLockedIn?.Invoke();
         Debug.Log("Block Locked In");
     }

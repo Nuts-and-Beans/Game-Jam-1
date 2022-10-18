@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerBlockControl : MonoBehaviour
 {
   [SerializeField] private Player playerID;
+  [SerializeField] private int collisionLayer;
   
   [Header("Movement Settings")]
   [SerializeField] private float horizontalMoveAmount   = 0.5f;
@@ -56,6 +57,12 @@ public class PlayerBlockControl : MonoBehaviour
   {
     _activeBlock = block;
     _activeBlock.OnBlockLockedIn += OnBlockLockedIn;
+
+    // we set the collision layer for every collider
+    _activeBlock.gameObject.layer = collisionLayer;
+    foreach (Transform child in _activeBlock.transform) {
+        child.gameObject.layer = collisionLayer;
+    }
   }
 
   private void OnMovePerformed(InputAction.CallbackContext context)

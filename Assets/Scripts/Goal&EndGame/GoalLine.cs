@@ -21,12 +21,13 @@ public class GoalLine : MonoBehaviour
     Block block = other.GetComponent<Block>();
     
     if (block == null) return;
+    if (block.IsControlled) return;
     if (block.PlayerID != player) return;
     
-    // NOTE(WSWhitehouse): Clamping block count so it can't go below 0
-    _blockCount = Mathf.Clamp(_blockCount + 1, 0, int.MaxValue);
+     // NOTE(WSWhitehouse): Clamping block count so it can't go below 0
+     _blockCount = Mathf.Clamp(_blockCount + 1, 0, int.MaxValue);
 
-        StartCoroutine(GoalLineReached());
+     StartCoroutine(GoalLineReached());
     }
 
   private void OnTriggerExit2D(Collider2D other)
@@ -34,6 +35,7 @@ public class GoalLine : MonoBehaviour
     Block block = other.GetComponent<Block>();
     
     if (block == null) return;
+    if (block.IsControlled) return;
     if (block.PlayerID != player) return;
     
     // NOTE(WSWhitehouse): Clamping block count so it can't go below 0
