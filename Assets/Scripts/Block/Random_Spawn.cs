@@ -25,6 +25,9 @@ public class Random_Spawn : MonoBehaviour {
 
         p1Spawn = playerOneSpawn;
         p2Spawn = playerTwoSpawn;
+
+        p1Score = 0;
+        p2Score = 0;
     }
     
     // spawns random block based on random number generated

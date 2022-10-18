@@ -33,8 +33,8 @@ public class EndGame_Screen : MonoBehaviour
             winID.text = ($"WINNER P{(((int)GameManager.playerwon) + 1).ToString()}");
         }
         
-        p1Score.text = $"P1 {100 * scoreMultiplier}";
-        p2Score.text = $"P1 {100 * scoreMultiplier}";
+        p1Score.text = $"P1 {Random_Spawn.p1Score * scoreMultiplier}";
+        p2Score.text = $"P2 {Random_Spawn.p2Score * scoreMultiplier}";
       
         yield return new WaitForSeconds(delay);
 
