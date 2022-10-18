@@ -1472,7 +1472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5875465805327229756, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
       propertyPath: sounds.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5875465805327229756, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
       propertyPath: sounds.Array.data[3].clip
@@ -1491,6 +1491,14 @@ PrefabInstance:
       value: Win
       objectReference: {fileID: 0}
     - target: {fileID: 5875465805327229756, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
+      propertyPath: sounds.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 49efee342186d8749a9ba1cfff2fd45e, type: 3}
+    - target: {fileID: 5875465805327229756, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
+      propertyPath: sounds.Array.data[5].name
+      value: NoWin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875465805327229756, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
       propertyPath: sounds.Array.data[0].pitch
       value: 1
       objectReference: {fileID: 0}
@@ -1503,11 +1511,19 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5875465805327229756, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
+      propertyPath: sounds.Array.data[5].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875465805327229756, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
       propertyPath: sounds.Array.data[3].volume
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5875465805327229756, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
       propertyPath: sounds.Array.data[4].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875465805327229756, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
+      propertyPath: sounds.Array.data[5].volume
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5875465805327229757, guid: 57a56fdde91f5ec418af7b879dbafc84, type: 3}
