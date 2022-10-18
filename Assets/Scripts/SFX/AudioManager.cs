@@ -9,8 +9,10 @@ public class AudioManager : MonoBehaviour
 
 	public AudioMixerGroup mixerGroup;
 
-	public Sound[] sounds;
-	
+	public  Sound[] sounds;
+
+
+
 	void Awake()
 	{
 		if (i != null)
@@ -46,8 +48,8 @@ public class AudioManager : MonoBehaviour
 
 		s.source.Play();
 		
-		//Debug.LogWarning("Sound: " + name + " not found!");
 	}
+	
 
 	public static void Play(string sound)
 	{
@@ -58,11 +60,28 @@ public class AudioManager : MonoBehaviour
 			return;
 		}
 
-		i.PlayInstance(sound); 
+		i.PlayInstance(sound);
+	}
+	private void StopInstance(string sound)
+	{
+		Sound s = Array.Find(sounds, item => item.name == sound);
+		if (s == null)
+		{
+			Debug.LogWarning("Sound: " + name + " not found!");
+			return;
+		}
+
+		s.source.Stop();
 	}
 
-	public static void Pause(string sound)
+	public static void Stop(string sound)
 	{
-		//Figure out the stop command
+		if (i == null)
+		{
+			Debug.LogWarning("No audio Manager");
+
+			return;
+		}
+		i.StopInstance(sound);
 	}
 }
