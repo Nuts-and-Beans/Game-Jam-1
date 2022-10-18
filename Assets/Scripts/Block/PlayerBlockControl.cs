@@ -85,7 +85,8 @@ public class PlayerBlockControl : MonoBehaviour
     if (y <= -MovementDeadZone) // Moving down
     {
       _activeBlock.MovementMultiplier = downMovementMultiplier;
-    }
+            AudioManager.Play("MovingBlock");
+        }
     else // Stopped moving down
     {
       _activeBlock.MovementMultiplier = Block.DefaultMovementMultiplier;

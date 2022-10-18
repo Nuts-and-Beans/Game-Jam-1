@@ -19,6 +19,7 @@ public class EndGame_Screen : MonoBehaviour
     {
         replay.SetActive(false);
         StartCoroutine(endGame());
+        AudioManager.Play("Win");
     }
 
     IEnumerator endGame() 

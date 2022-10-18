@@ -92,7 +92,7 @@ public class Block : MonoBehaviour
       IsControlled = false;
       Rigidbody.mass = 5;
       Rigidbody.gravityScale = 1;
-        
+      AudioManager.Play("Land");
       OnBlockLockedIn?.Invoke();
     }
 
