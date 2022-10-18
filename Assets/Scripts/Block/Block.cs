@@ -1,18 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Block : MonoBehaviour
 {
-    [SerializeField] private Player player; // TODO(WSWhitehouse): Remove this after testing
     [SerializeField] private BlockType blockType;
     [SerializeField] private float movementSpeed = 1.0f;
     [SerializeField] private Vector2 blockCenter = Vector2.zero;
     [SerializeField] private Vector2 blockBounds = Vector2.one;
 
     [Header("Collision Settings")]
-    [SerializeField] private float waitBeforeLockInPlaceTimer = 0.1f;
+    [SerializeField] private float waitBeforeLockInPlaceTimer = 0.05f;
+    [SerializeField] private ContactFilter2D filter;
     [SerializeField] private Collider2D[] colliders;
 
     public float MovementSpeed => movementSpeed * MovementMultiplier;
@@ -26,7 +28,6 @@ public class Block : MonoBehaviour
     public BlockType Type => blockType;
 
     public Rigidbody2D Rigidbody { get; private set; }
-    // public BoxCollider2D Collider { get; private set; }
 
     // NOTE(WSWhitehouse): Which player does this block belong too... 
     public Player PlayerID { get; set; } = Player.INVALID;
@@ -41,11 +42,11 @@ public class Block : MonoBehaviour
     
     private bool moving = false;
     private Coroutine waitTimerCo;
+
+    private ContactPoint2D[] contacts = new ContactPoint2D[15];
     
     private void Awake()
     {
-        PlayerID = player; // TODO(WSWhitehouse): Remove this after testing
-
         Rigidbody = GetComponent<Rigidbody2D>();
 
         // preallocate the coroutine
@@ -67,12 +68,9 @@ public class Block : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D col) {
-        Debug.Log("Collision");
-
         // stops stationary blocks from having the logic below run
         if (!moving) return;
 
-        // TODO(Zack): check for the contact normals
         waitTimerCo = StartCoroutine(WaitBeforeLockIn());
     }
 
@@ -119,6 +117,7 @@ public class Block : MonoBehaviour
         }
 
         SetBlockStationary();
+        waitTimerCo = null;
         yield break;
     }
     
