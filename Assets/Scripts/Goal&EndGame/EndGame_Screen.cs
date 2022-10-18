@@ -27,10 +27,12 @@ public class EndGame_Screen : MonoBehaviour
         if (GameManager.playerwon == Player.INVALID)
         {
             winID.text = ($"TIMEOUT! NO WINNER.");
+            AudioManager.Play("NoWin");
         }
         else
         {
             winID.text = ($"WINNER P{(((int)GameManager.playerwon) + 1).ToString()}");
+            AudioManager.Play("Win");
         }
         
         p1Score.text = $"P1 {100 * scoreMultiplier}";
