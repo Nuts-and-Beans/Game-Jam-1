@@ -19,6 +19,8 @@ public class NextBlockUI : MonoBehaviour
 
     public Image image;
 
+    private BlockType currentBlockType;
+
     private void Awake()
     {
 
@@ -31,7 +33,10 @@ public class NextBlockUI : MonoBehaviour
 
     void Update()
     {
-        changeNextBlockUI(Random_Spawn.GetPlayerNextBlockType(ID));
+        BlockType nextBlockType = Random_Spawn.GetPlayerNextBlockType(ID);
+        if (nextBlockType == currentBlockType) return;
+
+        changeNextBlockUI(nextBlockType);
     }
 
     public void changeNextBlockUI(BlockType blockType)
@@ -62,5 +67,7 @@ public class NextBlockUI : MonoBehaviour
             default:
                 throw new Exception("BlockType not found");
         }
+
+        currentBlockType = blockType;
     }
 }
