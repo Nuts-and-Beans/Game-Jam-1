@@ -10,12 +10,16 @@ public class EndGame_Screen : MonoBehaviour
     public GameObject replay;
     [SerializeField] int delay;
     //public Text score1;
+    public TMP_Text p1Score;
+    public TMP_Text p2Score;
+    public int scoreMultiplier = 100;
 
     // Update is called once per frame
     void Start()
     {
         replay.SetActive(false);
         StartCoroutine(endGame());
+        AudioManager.Play("Win");
     }
 
     IEnumerator endGame() 
@@ -28,6 +32,9 @@ public class EndGame_Screen : MonoBehaviour
         {
             winID.text = ($"WINNER P{(((int)GameManager.playerwon) + 1).ToString()}");
         }
+        
+        p1Score.text = $"P1 {100 * scoreMultiplier}";
+        p2Score.text = $"P1 {100 * scoreMultiplier}";
       
         yield return new WaitForSeconds(delay);
 
