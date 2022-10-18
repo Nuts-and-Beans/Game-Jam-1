@@ -15,9 +15,7 @@ public class PlayerBlockControl : MonoBehaviour
   [Header("Rotation Settings")]
   [SerializeField] private float rotationAmount = 90.0f;
   [SerializeField] private Vector3 rotationAxis = new Vector3(0.0f, 0.0f, 1.0f);
-  [Space]
-  [SerializeField] private Block startingBlock; // TODO(WSWhitehouse): Remove this as its for testing only
-
+ 
   private Block _activeBlock      = null;
   private bool _horizontalPressed = false;
   
@@ -36,8 +34,10 @@ public class PlayerBlockControl : MonoBehaviour
     Input.Asset.Block.Move.performed   += OnMovePerformed;
     Input.Asset.Block.Move.canceled    += OnMovePerformed;
     Input.Asset.Block.Rotate.performed += OnRotatePerformed;
-    
-    SetActiveBlock(startingBlock); // TODO(WSWhitehouse): Remove this as its for testing only
+
+
+    // if we have not set a start
+    SetActiveBlock(Random_Spawn.GetBlock(playerID));
   }
 
   private void OnDestroy()
@@ -48,11 +48,14 @@ public class PlayerBlockControl : MonoBehaviour
     Input.Asset.Block.Move.canceled    -= OnMovePerformed;
     Input.Asset.Block.Rotate.performed -= OnRotatePerformed;
 
+    if (_activeBlock == null) return;
+    _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
   }
   
   public void SetActiveBlock(Block block)
   {
     _activeBlock = block;
+    _activeBlock.OnBlockLockedIn += OnBlockLockedIn;
   }
 
   private void OnMovePerformed(InputAction.CallbackContext context)
@@ -144,7 +147,13 @@ public class PlayerBlockControl : MonoBehaviour
     Transform blockTransform    = _activeBlock.transform;
     blockTransform.eulerAngles += rotationAxis * rotationAmount;
     AudioManager.Play("RotatingBlock"); /// Add ding sounds - vlad
+  }
 
+  private void OnBlockLockedIn() {
+      Block block = Random_Spawn.GetBlock(playerID);
 
-}
+      // we unsubscribe from the current blocks event
+      _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
+      SetActiveBlock(block);
+  }
 }

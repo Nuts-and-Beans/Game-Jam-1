@@ -6,7 +6,6 @@ using System;
 
 public class NextBlockUI : MonoBehaviour
 {
-
     // NOTE(Seb): There definitely must be a smarter way to do this but I'm not sure how to do it while still making it obvious which Sprite is being used
     // NOTE(Seb): and not using integers to represent the block type
     public Sprite IBlockSprite;

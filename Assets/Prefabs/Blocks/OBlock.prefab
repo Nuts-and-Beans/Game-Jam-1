@@ -526,6 +526,11 @@ MonoBehaviour:
   movementSpeed: 1
   blockCenter: {x: 0, y: 0}
   blockBounds: {x: 2, y: 2}
+  colliders:
+  - {fileID: 5964580245286849639}
+  - {fileID: 5964580244761481295}
+  - {fileID: 5964580245178953993}
+  - {fileID: 5964580245078187066}
 --- !u!50 &5964580246833484692
 Rigidbody2D:
   serializedVersion: 4
