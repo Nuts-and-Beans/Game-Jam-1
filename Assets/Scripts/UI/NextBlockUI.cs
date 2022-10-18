@@ -6,26 +6,32 @@ using System;
 
 public class NextBlockUI : MonoBehaviour
 {
+
+    public Player ID;
     // NOTE(Seb): There definitely must be a smarter way to do this but I'm not sure how to do it while still making it obvious which Sprite is being used
-    // NOTE(Seb): and not using integers to represent the block type
     public Sprite IBlockSprite;
-    public Sprite JBlockSprite;
     public Sprite LBlockSprite;
+    public Sprite JBlockSprite;
     public Sprite OBlockSprite;
     public Sprite SBlockSprite;
     public Sprite TBlockSprite;
     public Sprite ZBlockSprite;
 
-    private Image image;
+    public Image image;
 
     private void Awake()
     {
-        image = GetComponent<Image>();
+
     }
 
     private void Start()
     {
+        image = GetComponent<Image>();
+    }
 
+    void Update()
+    {
+        changeNextBlockUI(Random_Spawn.GetPlayerNextBlockType(ID));
     }
 
     public void changeNextBlockUI(BlockType blockType)
