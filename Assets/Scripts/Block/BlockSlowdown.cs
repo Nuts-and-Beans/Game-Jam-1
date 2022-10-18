@@ -20,6 +20,6 @@ public class BlockSlowdown : MonoBehaviour
             //Slows down physics by 0.1f per block based on slowdownMultiplier being 1
             gameManager.PhysicsRange = 0.5f - (blocks_amount / 100f) * slowdownMultiplier;
         }
-        Debug.Log(gameManager.PhysicsRange);
+        // Debug.Log(gameManager.PhysicsRange);
     }
 }

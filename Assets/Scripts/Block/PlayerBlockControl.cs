@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerBlockControl : MonoBehaviour
 {
   [SerializeField] private Player playerID;
+  [SerializeField] private int collisionLayer;
   
   [Header("Movement Settings")]
   [SerializeField] private float horizontalMoveAmount   = 0.5f;
@@ -15,9 +16,7 @@ public class PlayerBlockControl : MonoBehaviour
   [Header("Rotation Settings")]
   [SerializeField] private float rotationAmount = 90.0f;
   [SerializeField] private Vector3 rotationAxis = new Vector3(0.0f, 0.0f, 1.0f);
-  [Space]
-  [SerializeField] private Block startingBlock; // TODO(WSWhitehouse): Remove this as its for testing only
-
+ 
   private Block _activeBlock      = null;
   private bool _horizontalPressed = false;
   
@@ -36,8 +35,12 @@ public class PlayerBlockControl : MonoBehaviour
     Input.Asset.Block.Move.performed   += OnMovePerformed;
     Input.Asset.Block.Move.canceled    += OnMovePerformed;
     Input.Asset.Block.Rotate.performed += OnRotatePerformed;
-    
-    SetActiveBlock(startingBlock); // TODO(WSWhitehouse): Remove this as its for testing only
+
+
+    // if we have not set a start
+    SetActiveBlock(Random_Spawn.GetBlock(playerID));
+
+    BlockKillVolume.OnControlledBlockKilled += OnControlledBlockKilled;
   }
 
   private void OnDestroy()
@@ -48,11 +51,23 @@ public class PlayerBlockControl : MonoBehaviour
     Input.Asset.Block.Move.canceled    -= OnMovePerformed;
     Input.Asset.Block.Rotate.performed -= OnRotatePerformed;
 
+    BlockKillVolume.OnControlledBlockKilled -= OnControlledBlockKilled;
+    
+    if (_activeBlock == null) return;
+    _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
   }
   
   public void SetActiveBlock(Block block)
   {
     _activeBlock = block;
+    _activeBlock.OnBlockLockedIn += OnBlockLockedIn;
+    _activeBlock.PlayerID = playerID;
+
+    // we set the collision layer for every collider
+    _activeBlock.gameObject.layer = collisionLayer;
+    foreach (Transform child in _activeBlock.transform) {
+        child.gameObject.layer = collisionLayer;
+    }
   }
 
   private void OnMovePerformed(InputAction.CallbackContext context)
@@ -96,14 +111,14 @@ public class PlayerBlockControl : MonoBehaviour
         }
         case Player.PLAYER_1:
         {
-          maxX = ( GameManager.PlayerSeparator   - _activeBlock.BlockCenter.x) - (_activeBlock.BlockBounds.x * 0.5f);
-          minX = (-GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) + (_activeBlock.BlockBounds.x * 0.5f);
+          maxX = ( GameManager.PlayerSeparator   - _activeBlock.BlockCenter.x) - ((_activeBlock.BlockBounds.x * 0.5f) + 0.15f);
+          minX = (-GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) + ((_activeBlock.BlockBounds.x * 0.5f) + 0.15f);
           break;
         }
         case Player.PLAYER_2:
         {
-          maxX = (GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) - (_activeBlock.BlockBounds.x * 0.5f);
-          minX = (GameManager.PlayerSeparator   - _activeBlock.BlockCenter.x) + (_activeBlock.BlockBounds.x * 0.5f);
+          maxX = (GameManager.HalfWorldBounds.x - _activeBlock.BlockCenter.x) - ((_activeBlock.BlockBounds.x * 0.5f) + 0.15f);
+          minX = (GameManager.PlayerSeparator   - _activeBlock.BlockCenter.x) + ((_activeBlock.BlockBounds.x * 0.5f) + 0.15f);
           break;
         }
         default: throw new ArgumentOutOfRangeException();
@@ -143,7 +158,27 @@ public class PlayerBlockControl : MonoBehaviour
     Transform blockTransform    = _activeBlock.transform;
     blockTransform.eulerAngles += rotationAxis * rotationAmount;
     AudioManager.Play("RotatingBlock"); /// Add ding sounds - vlad
+  }
 
+  private void OnBlockLockedIn()
+  {
+    // we unsubscribe from the current blocks event
+    _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
 
-}
+    // and set a new block to be controlled
+    Block block = Random_Spawn.GetBlock(playerID);
+    SetActiveBlock(block);
+  }
+
+  private void OnControlledBlockKilled(Player id)
+  {
+    if (id != playerID) return;
+    
+    // we unsubscribe from the current blocks event
+    _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
+      
+    // and set a new block to be controlled
+    Block block = Random_Spawn.GetBlock(playerID);
+    SetActiveBlock(block);
+  }
 }

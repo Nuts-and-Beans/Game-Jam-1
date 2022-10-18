@@ -8,4 +8,6 @@
     L_BLOCK,
     J_BLOCK,
     I_BLOCK,
+
+    MAX_BLOCKS,
 }
