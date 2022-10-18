@@ -42,8 +42,8 @@ public class PlayerBlockControl : MonoBehaviour
   }
     private void Update()
     {
-        blocksArray = GameObject.FindGameObjectsWithTag("Block");
-        foreach (GameObject aBlock in blocksArray)
+   
+        foreach (Block aBlock in BlockPool.ActiveBlocks)
         {
             if(aBlock.GetComponent<Random_Spawn>().control == true)
             {

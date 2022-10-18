@@ -116,10 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91485a6b56b381e4581274b6917a8ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block1: {fileID: 7796412149516437098, guid: fc70c1c1c7a27424aa9251dfd2a00dbe, type: 3}
-  block2: {fileID: 6794375637091520885, guid: 360fa0b4c4ba5214faff142fb0c0a50f, type: 3}
-  block3: {fileID: 7796412149516437098, guid: fc70c1c1c7a27424aa9251dfd2a00dbe, type: 3}
-  control: 1
+  control: 0
   player: 1
 --- !u!1 &5870712000144309888
 GameObject:
