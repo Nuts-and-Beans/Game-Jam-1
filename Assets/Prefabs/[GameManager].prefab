@@ -526,7 +526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 6381441966984349011}
   gameStartTime: 5
-  gameTime: 5
+  gameTime: 60
   worldBounds: {x: 13, y: 10}
   playerSeparator: 0
   PhysicsRange: 0.5
