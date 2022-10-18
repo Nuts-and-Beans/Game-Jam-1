@@ -160,23 +160,25 @@ public class PlayerBlockControl : MonoBehaviour
     AudioManager.Play("RotatingBlock"); /// Add ding sounds - vlad
   }
 
-  private void OnBlockLockedIn() {
-      // we unsubscribe from the current blocks event
-      _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
+  private void OnBlockLockedIn()
+  {
+    // we unsubscribe from the current blocks event
+    _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
 
-      // and set a new block to be controlled
-      Block block = Random_Spawn.GetBlock(playerID);
-      SetActiveBlock(block);
+    // and set a new block to be controlled
+    Block block = Random_Spawn.GetBlock(playerID);
+    SetActiveBlock(block);
   }
 
-  private void OnControlledBlockKilled(Player id) {
-      if (id != playerID) return;
-
-      // we unsubscribe from the current blocks event
-      _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
+  private void OnControlledBlockKilled(Player id)
+  {
+    if (id != playerID) return;
+    
+    // we unsubscribe from the current blocks event
+    _activeBlock.OnBlockLockedIn -= OnBlockLockedIn;
       
-      // and set a new block to be controlled
-      Block block = Random_Spawn.GetBlock(playerID);
-      SetActiveBlock(block);
+    // and set a new block to be controlled
+    Block block = Random_Spawn.GetBlock(playerID);
+    SetActiveBlock(block);
   }
 }

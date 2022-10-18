@@ -16,9 +16,19 @@ public class GoalLine : MonoBehaviour
   private bool _timerReached = false;
 
 
-  private void OnTriggerEnter2D(Collider2D other)
+  private Coroutine lineReachedCo;
+  
+  private void OnTriggerStay2D(Collider2D other)
   {
-    Block block = other.GetComponent<Block>();
+    Block block = null;
+    if (other.transform.parent != null)
+    {
+      block = other.transform.parent.GetComponent<Block>();
+    }
+    else
+    {
+      block = other.GetComponent<Block>();
+    }
     
     if (block == null) return;
     if (block.IsControlled) return;
@@ -27,7 +37,8 @@ public class GoalLine : MonoBehaviour
      // NOTE(WSWhitehouse): Clamping block count so it can't go below 0
      _blockCount = Mathf.Clamp(_blockCount + 1, 0, int.MaxValue);
 
-     StartCoroutine(GoalLineReached());
+     if (lineReachedCo != null) return;
+     lineReachedCo = StartCoroutine(GoalLineReached());
     }
 
   private void OnTriggerExit2D(Collider2D other)
@@ -40,25 +51,9 @@ public class GoalLine : MonoBehaviour
     
     // NOTE(WSWhitehouse): Clamping block count so it can't go below 0
     _blockCount = Mathf.Clamp(_blockCount - 1, 0, int.MaxValue);
-  }
 
-  private void Update()
-  {
-    if (_timerReached) return;
-    
-    if (_blockCount <= 0)
-    {
-      _timer = 0.0f;
-      return;
-    }
-    
-    _timer += Time.deltaTime;
-
-    if (_timer >= timer)
-    {
-      _timerReached = true;
-      StartCoroutine (GoalLineReached());
-    }
+    if (lineReachedCo == null) return;
+    StopCoroutine(GoalLineReached());
   }
 
   private IEnumerator GoalLineReached()
@@ -66,10 +61,16 @@ public class GoalLine : MonoBehaviour
     // TODO: Fire end game UI and stuff...
     Debug.Log($"Player {(((int)player) + 1).ToString()} reached the goal line!");
 
+    float elapsed = 0f;
+    while (elapsed < timer)
+    {
+     elapsed += Time.deltaTime;
+     yield return null;
+    }
+    
     GameManager.playerwon = player;
 
     yield return new WaitForSeconds(delay);
     SceneManager.LoadScene(2);
-
   }
 }

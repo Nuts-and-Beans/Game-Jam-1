@@ -35,6 +35,8 @@ public class Random_Spawn : MonoBehaviour {
 
                 newBlock.transform.position = p1Spawn.position;
                 newBlock.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                newBlock.transform.rotation = Quaternion.identity;
+                newBlock.MovementMultiplier = Block.DefaultMovementMultiplier;
                 
                 return newBlock;
             } break;
@@ -48,6 +50,9 @@ public class Random_Spawn : MonoBehaviour {
                 
                 newBlock.transform.position = p2Spawn.position;
                 newBlock.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                newBlock.transform.rotation = Quaternion.identity;
+                newBlock.MovementMultiplier = Block.DefaultMovementMultiplier;
+                
                 return newBlock;
             } break;
 
