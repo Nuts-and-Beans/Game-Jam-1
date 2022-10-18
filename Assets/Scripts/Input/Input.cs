@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,8 +8,11 @@ using UnityEngine.InputSystem.Utilities;
 
 public static class Input
 {
-  public static GameInput StaticAsset                      { get; private set; }
-  public static InputControlScheme[] DefaultControlSchemes { get; private set; }
+  public static GameInput StaticAsset                       { get; private set; }
+  public static InputControlScheme ControlScheme            { get; private set; }
+  public static InputControlScheme[] KeyboardControlSchemes { get; private set; }
+  
+  private static InputControlScheme[] AllControlSchemes;
   
   public delegate void NewDeviceDetected(InputDevice device, InputControlScheme controlScheme);
   public static NewDeviceDetected OnNewDeviceDetected;
@@ -22,14 +26,21 @@ public static class Input
     
     // Getting the index of all the control schemes here so they can be split up into their own array
     ReadOnlyArray<InputControlScheme> controlSchemes = StaticAsset.controlSchemes;
-    int keyboardIndex   = controlSchemes.IndexOf(x => x.name == "Keyboard");
+    int keyboard1Index  = controlSchemes.IndexOf(x => x.name == "KeyboardP1");
+    int keyboard2Index  = controlSchemes.IndexOf(x => x.name == "KeyboardP2");
     int controllerIndex = controlSchemes.IndexOf(x => x.name == "Controller");
     
     // Set up default control schemes
-    DefaultControlSchemes    = new InputControlScheme[2];
-    DefaultControlSchemes[0] = controlSchemes[keyboardIndex];
-    DefaultControlSchemes[1] = controlSchemes[controllerIndex];
+    KeyboardControlSchemes = new InputControlScheme[PlayerInput.MaxPlayerCount];
+    KeyboardControlSchemes[(int)Player.PLAYER_1] = controlSchemes[keyboard1Index];
+    KeyboardControlSchemes[(int)Player.PLAYER_2] = controlSchemes[keyboard2Index];
     
+    ControlScheme = controlSchemes[controllerIndex];
+    
+    // REVIEW(WSWhitehouse): This aint nice...
+    List<InputControlScheme> schemes = new List<InputControlScheme>(KeyboardControlSchemes) { ControlScheme };
+    AllControlSchemes = schemes.ToArray();
+
     // Search for unpaired devices
     InputUser.onUnpairedDeviceUsed += OnUnpairedDeviceUsed;
     ++InputUser.listenForUnpairedDeviceActivity;
@@ -53,7 +64,7 @@ public static class Input
   {
     if (StaticAsset.controlSchemes.Count <= 0) return null;
 
-    InputControlScheme[] controlSchemes = DefaultControlSchemes;
+    InputControlScheme[] controlSchemes = AllControlSchemes;
     using InputControlList<InputDevice> unpairedDevices = InputUser.GetUnpairedInputDevices();
     return InputControlScheme.FindControlSchemeForDevices(unpairedDevices, controlSchemes, device);
   }

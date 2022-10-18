@@ -111,7 +111,6 @@ public class PlayerBlockControl : MonoBehaviour
       
       float newXPos = Mathf.Clamp(blockPosition.x + moveAmount, minX, maxX);
       blockTransform.position = new Vector3(newXPos, blockPosition.y, blockPosition.z);
-      
     }
     
     if (_horizontalPressed)

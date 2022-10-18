@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a14e4e42ae4ce79ab6537c1c5c480e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 0
+  playerID: 1
   horizontalMoveAmount: 0.5
   downMovementMultiplier: 7
   rotationAmount: 90
