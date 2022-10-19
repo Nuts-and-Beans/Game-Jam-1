@@ -83,8 +83,8 @@ public static class PlayerInput
   private static void __OnNewDeviceDetected(InputDevice device, InputControlScheme controlScheme)
   {
     int currentPlayerCount = PlayerCount;
-    if (currentPlayerCount == MaxPlayerCount) return; 
-    
+    if (currentPlayerCount == MaxPlayerCount) return;
+
     if (device is Keyboard)
     {
       switch (currentPlayerCount)
@@ -104,6 +104,16 @@ public static class PlayerInput
         } goto default;
           
         default: return;
+      }
+    }
+    else
+    {
+      // Check that this device isnt already in use
+      foreach (InputData inputData in Players)
+      {
+        if (inputData == null) continue;
+      
+        if (inputData.Device == device) return;
       }
     }
     

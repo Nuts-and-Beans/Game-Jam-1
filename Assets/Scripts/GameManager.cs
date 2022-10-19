@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         HalfWorldBounds = WorldBounds * 0.5f;
         PlayerSeparator = playerSeparator;
         playerwon = Player.INVALID;
+        CurrentGameTime = 0.0f;
     }
 
     private void FixedUpdate()
